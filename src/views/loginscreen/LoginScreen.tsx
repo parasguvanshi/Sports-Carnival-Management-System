@@ -5,8 +5,8 @@ import styles from './loginScreenStyle';
 import Button from '../../components/button/Button';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigator';
-import { authViewModel } from '../../viewmodels/authViewModel';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { loginViewModel } from '../../viewmodels/loginViewModel';
 
 type props = NativeStackScreenProps<RootStackParamList , 'Login'>
 
@@ -14,20 +14,26 @@ const LoginScreen = ({navigation} : props) => {
 
   const [email, setEmail] = useState<string>('');
   const [password , setPassword] = useState<string>('');
-  const {login } = authViewModel();
 
   const handleLogin = () => {
-     
-    const loginMsg = login(email,password);
+  const payload = {
+    email,
+    password,
+  };
 
-    setEmail('');
-    setPassword('')
+  const result = loginViewModel(payload);
 
-    if(loginMsg){
-      Alert.alert('Login Successfully');
-      navigation.navigate('UserRole');
-    }
+  if (!result.success) {
+    Alert.alert(result.message ?? 'Login failed');
+    return;
   }
+
+  Alert.alert('Login Successfully');
+  navigation.navigate('UserRole', {});
+};
+
+
+  const isButtonDisabled : boolean = email.trim() === ''  || password.trim() === '';
 
   return (
   <KeyboardAwareScrollView
@@ -37,18 +43,18 @@ const LoginScreen = ({navigation} : props) => {
   keyboardShouldPersistTaps="handled"
   >
 
-    <View style={styles.viewContainer}>
+    <View style={styles.container}>
 
-      <View style={styles.header}>
+      <View style={styles.headerContainer}>
         <Text style={styles.headerText}> Hey,{'\n'} Welcome Back.</Text>
       </View>
 
-      <View style={styles.viewBox}>
+      <View style={styles.inputFieldContainer}>
 
-        <Text style={styles.textBox}>Email:</Text>
+        <Text style={styles.labelText}>Email:</Text>
         <TextInput 
         value={email}
-        style={styles.inputBox}
+        style={styles.inputField}
         placeholder='Enter Your Email...'
         onChangeText={(prev)=>{
           setEmail(prev)
@@ -56,13 +62,13 @@ const LoginScreen = ({navigation} : props) => {
 
       </View>
 
-      <View style={styles.viewBox}>
+      <View style={styles.inputFieldContainer}>
 
-        <Text style={styles.textBox}>Password:</Text>
+        <Text style={styles.labelText}>Password:</Text>
 
         <TextInput 
         value={password}
-        style={styles.inputBox} 
+        style={styles.inputField} 
         secureTextEntry={true} 
         placeholder='Enter Your Password...'
         onChangeText={(prev)=>{
@@ -72,25 +78,29 @@ const LoginScreen = ({navigation} : props) => {
       </View>
 
       <View>
-        <Button name='Login' onPress={handleLogin}/>
+        <Button name='Login' onPress={handleLogin} disabled={isButtonDisabled} />
       </View>
 
-      <Pressable
-          onPress={()=>{
-          }}  
-          >
-            <Text style={styles.forgotText}>Forgot Password ?  
-        </Text>
-      </Pressable>
 
+      <View style={styles.textAlignmentContainer}>
         <Pressable
           onPress={()=>{
-            navigation.navigate('Register')
           }}  
           >
-            <Text style={styles.buttonText}>Don't have an account ? Sign up  
-        </Text>
+            <Text style={styles.forgotPasswordText}>Forgot Password ?  </Text>
         </Pressable>
+
+        <View style={styles.signUpButtonText}>
+        <Text>Don't have an account? </Text>  
+        <Pressable
+          onPress={()=>{
+            navigation.navigate('Register',{})
+          }}  
+          >
+            <Text style={styles.buttonText}>Sign up</Text>
+        </Pressable>
+      </View>  
+          </View>
 
     </View>
     </KeyboardAwareScrollView>

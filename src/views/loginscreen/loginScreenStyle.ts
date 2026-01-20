@@ -1,60 +1,66 @@
 import { StyleSheet } from "react-native";
-import {theme} from '../../theme/theme';
+import { color } from "../../themeconstants/colorConstants";
+import { fonts } from "../../themeconstants/fontsConstants";
 
 const styles = StyleSheet.create({
     KeyboardBackground : {
-        backgroundColor : theme.colors.primary
+        backgroundColor : color.primary
     },
-     header : {
+    headerContainer : {
         marginBottom : 60,
     },
     headerText : {
-        fontSize : 40,
-        fontWeight : 900,
+        fontSize : fonts.fontSizes.xxl,
+        fontWeight : fonts.fontsWeight.bold,
         fontFamily : 'Gilroy',
         textAlign : 'center'
     },
-    viewContainer: {
+    container: {
         width : '100%',
         height : '100%',
-        backgroundColor: theme.colors.primary,
+        backgroundColor: color.primary,
         padding : 15,
         justifyContent : 'center',
         
     },
-    viewBox : {
-        color : 'black',
+    inputFieldContainer : {
+        color : color.textPrimary,
         gap : 5,
         marginTop : 25
     },
-    textBox : {
-        fontSize : 22,
-        color : theme.colors.textPrimary,
-        fontWeight : 500,
+    labelText : {
+        fontSize : fonts.fontSizes.md,
+        color : color.textPrimary,
+        fontWeight : fonts.fontsWeight.regular,
 
     },
-    inputBox : {
-        backgroundColor : theme.colors.secondary,
+    inputField : {
+        backgroundColor : color.secondary,
         padding : 12,
         paddingLeft : 15,
-        fontSize : 18,
-        borderColor : 'black',
-        borderWidth : 3,
+        fontSize : fonts.fontSizes.xs,
+        borderColor : color.borderPrimary,
+        borderWidth : 2,
         borderRadius : 15,
     },
     buttonText : {
-        marginTop : 30,
-        textAlign : 'center',
-        fontWeight : 400,
-        color : theme.colors.textPrimary
+        fontWeight : fonts.fontsWeight.regular,
+        color : color.textPrimary
         
     },
-    forgotText : {
+    forgotPasswordText : {
+        marginTop : 0,
+        fontWeight : fonts.fontsWeight.regular,
+        color : color.textPrimary
+    },
+    textAlignmentContainer : {
         marginTop : 10,
-        fontWeight : 400,
-        color : theme.colors.textPrimary
+        flexDirection : 'row',
+        justifyContent : 'space-between'
+    },
+    signUpButtonText : {
+        flexDirection :'row',
     }
-    
 })
 
 export default styles;

@@ -1,49 +1,50 @@
 import { StyleSheet } from "react-native";
-import { theme } from "../../theme/theme";
+import { color } from "../../themeconstants/colorConstants";
+import { fonts } from "../../themeconstants/fontsConstants";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.primary,
+    backgroundColor: color.primary,
     padding: 20,
     justifyContent: 'center',
   },
   title: {
-    fontSize: 30,
-    fontWeight: 900,
+    fontSize: fonts.fontSizes.xl,
+    fontWeight: fonts.fontsWeight.bold,
     textAlign: 'center',
-    color: theme.colors.textPrimary
+    color: color.textPrimary
   },
   subtitle: {
     fontSize: 16,
-    color: theme.colors.textSecondary,
+    color: color.textPrimary,
     textAlign: 'center',
-    fontWeight : 400,
+    fontWeight : fonts.fontsWeight.regular,
     marginBottom: 20,
   },
   card: {
-    backgroundColor: theme.colors.secondary,
+    backgroundColor: color.secondary,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: color.borderPrimary,
   },
   selectedCard: {
     borderColor: '#007BFF',
     backgroundColor: '#EEF5FF',
   },
   icon: {
-    fontSize: 28,
+    fontSize: fonts.fontSizes.xl,
   },
   cardTitle: {
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: fonts.fontSizes.sm,
+    fontWeight: fonts.fontsWeight.semiBold,
     marginTop: 8,
   },
   cardDescription: {
     fontSize: 14,
-    color: theme.colors.textSecondary,
+    color: color.textPrimary,
     fontWeight:500,
     marginTop: 4,
   },
@@ -51,16 +52,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: '#007BFF',
     paddingVertical: 14,
-    borderRadius: 10,
+    borderRadius: 20,
     alignItems: 'center',
   },
   disabledButton: {
-    backgroundColor: '#726d6d',
+    backgroundColor: color.disableColor,
   },
   buttonText: {
     color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: fonts.fontSizes.xs,
+    fontWeight: fonts.fontsWeight.medium,
   },
 });
 

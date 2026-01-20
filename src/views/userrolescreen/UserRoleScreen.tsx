@@ -2,14 +2,15 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { RootStackParamList } from '../../navigation/Navigator'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import styles from './UserRoleScreenStyle'
+import styles from './userRoleScreenStyle'
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { color } from '../../themeconstants/colorConstants'
 
 
 type props = NativeStackScreenProps<RootStackParamList , 'UserRole'>
 
 interface user  {
-    id :string,
+    id :number,
     title : string,
     icon : string,
     description : string
@@ -17,19 +18,19 @@ interface user  {
 
 const roles : user[]  = [
   {
-    id: 'admin',
+    id: 1,
     title: 'Admin',
     icon: 'admin-panel-settings',
     description: 'Admins have full access to the system. They can manage users monitor activities',
   },
   {
-    id: 'organizer',
+    id: 2,
     title: 'Organizer',
     icon: 'event',
     description: 'Organizers can create, update, and manage events. They handle registrations, schedule of event',
   },
   {
-    id: 'participant',
+    id: 3,
     title: 'Participant',
     icon: 'person',
     description: 'Participants can browse events, register, receive notifications, and actively take part in activities.',
@@ -38,7 +39,7 @@ const roles : user[]  = [
 
 const UserRoleScreen = ({navigation} : props) => {
 
-  const [selectedRole, setSelectedRole] = useState<string | null>(null);
+  const [selectedRole, setSelectedRole] = useState<number | null>(null);
 
   return (
     <View style={styles.container}>
@@ -57,7 +58,7 @@ const UserRoleScreen = ({navigation} : props) => {
           <Icon
             name={role.icon}
             size={28}
-            color= '#000'
+            color= {color.background }
             style={styles.icon}
           />
           <Text style={styles.cardTitle}>{role.title}</Text>

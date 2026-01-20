@@ -1,15 +1,16 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import { theme } from '../../theme/theme';
+import { Pressable, Text} from 'react-native'
 import React from 'react'
+import styles from './button';
 
 type buttonProp = {
     name : string;
-    onPress? : () => void
+    onPress? : () => void;
+    disabled? : boolean; 
 }
 
-const Button = ({name , onPress} : buttonProp) => {
+const Button = ({name , onPress , disabled=false} : buttonProp) => {
   return (
-    <Pressable style={styles.button} onPress={onPress}>
+    <Pressable  style={[disabled ? styles.disableButton : styles.button]} onPress={onPress} disabled={disabled}>
         <Text style={styles.buttonText}>
             {name}
         </Text>
@@ -18,21 +19,3 @@ const Button = ({name , onPress} : buttonProp) => {
 }
 
 export default Button
-
-const styles = StyleSheet.create({
-    button : {
-        width:'100%',
-        color: 'white',
-        backgroundColor : theme.colors.buttonBackground,
-        padding: 10,
-        fontSize : 20,
-        borderRadius : 10,
-        marginTop : 30
-    },
-    buttonText:{
-        color : 'white',
-        fontSize : 20,
-        textAlign : 'center',
-        fontWeight : 900
-    }
-})

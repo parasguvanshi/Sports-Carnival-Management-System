@@ -6,9 +6,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import UserRoleScreen from '../views/userrolescreen/UserRoleScreen'
 
 export type RootStackParamList = {
-  Login : undefined;
-  Register : undefined;
-  UserRole : undefined;
+  Login : {};
+  Register : {};
+  UserRole : {};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

@@ -1,51 +1,51 @@
 import { Keyboard, StyleSheet } from "react-native";
-import { theme } from "../../theme/theme";
+import { color } from "../../themeconstants/colorConstants";
+import { fonts } from "../../themeconstants/fontsConstants";
 
 const styles = StyleSheet.create({
     KeyboardBackground : {
-        backgroundColor : theme.colors.primary
+        backgroundColor : color.primary
     },
-    header : {
+    headerContainer : {
         marginBottom : 50
-
     },
     headerText : {
         textAlign : 'center',
-        fontSize : 40,
-        fontWeight : 900,
+        fontSize : fonts.fontSizes.xxl,
+        fontWeight : fonts.fontsWeight.bold,
         fontFamily : 'Gilroy'
     },
-    viewContainer: {
+    container: {
         width : '100%',
         height : '100%',
-        backgroundColor: theme.colors.primary,
+        backgroundColor: color.primary,
         padding : 18,
         justifyContent : 'center',
     },
-    viewBox : {
-        color : 'black',
+    inputFieldContainer : {
+        color : color.textPrimary,
         gap : 5,
         marginTop:15
     },
-    textBox : {
-        fontSize : 22,
-        color : theme.colors.textPrimary,
-        fontWeight : 500
+    labelText: {
+        fontSize : fonts.fontSizes.md,
+        color : color.textPrimary,
+        fontWeight : fonts.fontsWeight.regular,
     },
-    inputBox : {
-        backgroundColor : theme.colors.secondary,
+    inputField : {
+        backgroundColor : color.secondary,
         padding : 12,
         paddingLeft : 15,
-        fontSize : 18,
-        borderColor : 'black',
-        borderWidth : 3,
+        fontSize : fonts.fontSizes.xs,
+        borderColor : color.borderPrimary,
+        borderWidth : 2,
         borderRadius : 15 
     },
-    buttonText : {
-        marginTop : 10,
-        textAlign : 'center'
+    loginTextContainer : {
+        marginTop :10,
+        justifyContent : 'center',
+        flexDirection :'row',
     }
-    
 })
 
 export default styles;

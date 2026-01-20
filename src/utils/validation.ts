@@ -1,41 +1,65 @@
-import { Alert } from "react-native";
+import { LoginPayload, RegisterPayload } from '../types/auth';
 
-export const validateLogin = (email : string , password : string) : boolean | void => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+export const validateLogin = (payload: LoginPayload): string | true => {
 
-    if(!emailRegex.test(email)){
-        Alert.alert('Invalid Email');
-        return;
-    }
+  const { email, password } = payload;
 
-    if(!passwordRegex.test(password)){
-        Alert.alert('Invalid Password must include at least one uppercase ,lowecase and special character');
-        return;
-    }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
 
-    return true
-}
+  if (!email){ 
+    return 'Email is required';
+  }
 
-export const validateRegister = (email : string , password : string ,confirmPassword: string) : boolean | void => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+  if (!password) {
+    return 'Password is required';
+  }
 
-    if(!emailRegex.test(email)){
-        Alert.alert('Invalid Email');
-        return;
-    }
+  if (!emailRegex.test(email)) {
+    return 'Invalid email';
+  }
 
-    if(!passwordRegex.test(password)){
-        Alert.alert('Invalid Password must include at least one uppercase ,lowecase and special character');
-        return;
-    }
+  if (!passwordRegex.test(password)){
+    return 'Invalid password: must include uppercase, number, and special character';
+  }
 
-    if(password !== confirmPassword){
-        Alert.alert('Password don not match')
-        return;
-    }
+  return true;
+};
 
-    return true
+export const validateRegister = (payload: RegisterPayload): string | true => {
 
-}
+  const { name, email, password, confirmPassword } = payload;
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+  if (!name) {
+    return 'Name is required';
+  }
+
+  if (!email) {
+    return 'Email is required';
+  }
+
+  if (!password) {
+    return 'Password is required';
+  }
+
+  if (!confirmPassword) {
+    return 'Confirm password is required';
+  }
+
+  if (!emailRegex.test(email)) {
+    return 'Invalid email';
+  }
+
+  if (!passwordRegex.test(password)){
+    return 'Invalid password: must include uppercase, number, and special character';
+  }
+
+  if (password !== confirmPassword) {
+    return 'Passwords do not match';
+  }
+
+  return true;
+};
