@@ -4,19 +4,13 @@ import { RootStackParamList } from '../../navigation/Navigator'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import styles from './userRoleScreenStyle'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { color } from '../../themeconstants/colorConstants'
+import { color } from '../../theme/colorConstants'
+import { userInfo } from '../../types/userRoleData'
 
 
 type props = NativeStackScreenProps<RootStackParamList , 'UserRole'>
 
-interface user  {
-    id :number,
-    title : string,
-    icon : string,
-    description : string
-}
-
-const roles : user[]  = [
+const roles : userInfo[]  = [
   {
     id: 1,
     title: 'Admin',

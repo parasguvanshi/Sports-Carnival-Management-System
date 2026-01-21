@@ -7,6 +7,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigator';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { loginViewModel } from '../../viewmodels/loginViewModel';
+import { validateMessages } from '../../constant/validateMessages';
 
 type props = NativeStackScreenProps<RootStackParamList , 'Login'>
 
@@ -24,11 +25,11 @@ const LoginScreen = ({navigation} : props) => {
   const result = loginViewModel(payload);
 
   if (!result.success) {
-    Alert.alert(result.message ?? 'Login failed');
+    Alert.alert(result.message ?? validateMessages.LOGIN_FAILED);
     return;
   }
 
-  Alert.alert('Login Successfully');
+  Alert.alert(validateMessages.LOGIN_SUCCESS);
   navigation.navigate('UserRole', {});
 };
 

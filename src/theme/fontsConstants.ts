@@ -16,4 +16,5 @@ export const fonts = {
     xxl:40,
   },
 
+
 }

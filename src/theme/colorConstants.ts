@@ -6,11 +6,14 @@ export const color = {
 
     textPrimary: '#000000',
     textSecondary: '#ffffff',
-    textMuted: '#babdc2',
+    textBlue: '#4b66dd',
 
     buttonBackground : '#4b66dd',
 
     borderPrimary : '#000000',
 
-    disableColor : '#726d6d'
+    disableColor : '#726d6d',
+
+    editIcon :'#38d655',
+    deleteIcon : '#e23434'
 }

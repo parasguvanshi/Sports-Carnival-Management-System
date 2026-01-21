@@ -1,3 +1,4 @@
+import { validateMessages } from '../constant/validateMessages';
 import { LoginPayload, RegisterPayload } from '../types/auth';
 
 export const validateLogin = (payload: LoginPayload): string | true => {
@@ -8,19 +9,19 @@ export const validateLogin = (payload: LoginPayload): string | true => {
   const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
 
   if (!email){ 
-    return 'Email is required';
+    return validateMessages.REQUIRED_EMAIL;
   }
 
   if (!password) {
-    return 'Password is required';
+    return validateMessages.PASSWORD_REQUIRED;
   }
 
   if (!emailRegex.test(email)) {
-    return 'Invalid email';
+    return validateMessages.INVALID_EMAIL;
   }
 
   if (!passwordRegex.test(password)){
-    return 'Invalid password: must include uppercase, number, and special character';
+    return validateMessages.INVALID_PASSWORD;
   }
 
   return true;
@@ -34,31 +35,31 @@ export const validateRegister = (payload: RegisterPayload): string | true => {
   const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
 
   if (!name) {
-    return 'Name is required';
+    return validateMessages.NAME_REQUIRED;
   }
 
   if (!email) {
-    return 'Email is required';
+    return validateMessages.REQUIRED_EMAIL;
   }
 
   if (!password) {
-    return 'Password is required';
+    return validateMessages.PASSWORD_REQUIRED;
   }
 
   if (!confirmPassword) {
-    return 'Confirm password is required';
+    return validateMessages.CONFIRM_PASSWORD;
   }
 
   if (!emailRegex.test(email)) {
-    return 'Invalid email';
+    return validateMessages.INVALID_EMAIL;
   }
 
   if (!passwordRegex.test(password)){
-    return 'Invalid password: must include uppercase, number, and special character';
+    return validateMessages.INVALID_PASSWORD;
   }
 
   if (password !== confirmPassword) {
-    return 'Passwords do not match';
+    return validateMessages.PASSWORD_MISMATCH;
   }
 
   return true;

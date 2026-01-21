@@ -1,6 +1,6 @@
 import { Keyboard, StyleSheet } from "react-native";
-import { color } from "../../themeconstants/colorConstants";
-import { fonts } from "../../themeconstants/fontsConstants";
+import { color } from "../../theme/colorConstants";
+import { fonts } from "../../theme/fontsConstants";
 
 const styles = StyleSheet.create({
     KeyboardBackground : {
@@ -45,6 +45,9 @@ const styles = StyleSheet.create({
         marginTop :10,
         justifyContent : 'center',
         flexDirection :'row',
+    },
+    signUpText : {
+        
     }
 })
 

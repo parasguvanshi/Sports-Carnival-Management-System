@@ -7,6 +7,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigator';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { registerViewModel } from '../../viewmodels/registerViewModel';
+import { validateMessages } from '../../constant/validateMessages';
 
 type props = NativeStackScreenProps<RootStackParamList, 'Register'>;
 
@@ -27,11 +28,11 @@ const RegisterScreen = ({ navigation }: props) => {
     const result = registerViewModel(payload);
 
     if (!result.success) {
-      Alert.alert(result.message ?? 'Registration failed');
+      Alert.alert(result.message ?? validateMessages.REGISTRATION_FAILED);
       return;
     }
     
-    Alert.alert('Register Successfully');
+    Alert.alert(validateMessages.REGISTRATION_SUCCESS);
     navigation.navigate('Login', {});
   };
 
