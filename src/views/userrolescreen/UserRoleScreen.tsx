@@ -1,80 +1,88 @@
-import { View, Text, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
-import { RootStackParamList } from '../../navigation/Navigator'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import styles from './userRoleScreenStyle'
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { RootStackParamList } from '../../navigation/Navigator';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import styles from './userRoleScreenStyle';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { color } from '../../theme/colorConstants'
-import { userInfo } from '../../types/userRoleData'
+import { color } from '../../theme/colorConstants';
+import { roleType, userInfo } from '../../types/userRoleData';
+import { useAuth } from '../../context/AuthContext';
+import { VALIDATE_MESSAGES } from '../../constant/validateConstant';
+import { STRING } from '../../constant/stringConstant';
 
+type props = NativeStackScreenProps<RootStackParamList, 'UserRole'>;
 
-type props = NativeStackScreenProps<RootStackParamList , 'UserRole'>
-
-const roles : userInfo[]  = [
+const roles: userInfo[] = [
   {
     id: 1,
-    title: 'Admin',
-    icon: 'admin-panel-settings',
-    description: 'Admins have full access to the system. They can manage users monitor activities',
+    title: STRING.USER_INFO.DESCRIPTION_ADMIN,
+    icon: STRING.USER_INFO.ICON_ADMIN,
+    description: STRING.USER_INFO.DESCRIPTION_ADMIN,
   },
   {
     id: 2,
-    title: 'Organizer',
-    icon: 'event',
-    description: 'Organizers can create, update, and manage events. They handle registrations, schedule of event',
+    title: STRING.USER_INFO.TITLE_ORGANISER,
+    icon: STRING.USER_INFO.ICON_ORGANISER,
+    description: STRING.USER_INFO.DESCRIPTION_ORGANISER,
   },
   {
     id: 3,
-    title: 'Participant',
-    icon: 'person',
-    description: 'Participants can browse events, register, receive notifications, and actively take part in activities.',
+    title: STRING.USER_INFO.TITLE_PARTICIPANTS,
+    icon: STRING.USER_INFO.ICON_PARTICIPANTS,
+    description: STRING.USER_INFO.DESCRIPTION_PARTICIPANTS,
   },
 ];
 
-const UserRoleScreen = ({navigation} : props) => {
-
+const UserRoleScreen = ({ navigation, route }: props) => {
   const [selectedRole, setSelectedRole] = useState<number | null>(null);
+  const { setUserRole } = useAuth();
+  const { email } = route.params;
+
+  const handleRegister = async () => {
+    if (!selectedRole) {
+      return;
+    }
+
+    const role = roleType[selectedRole as 1 | 2 | 3];
+    const result = await setUserRole(email, role);
+
+    if (result) {
+      Alert.alert(VALIDATE_MESSAGES.REGISTRATION_SUCCESS);
+      navigation.replace('Login', {});
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Select Your Role</Text>
-      <Text style={styles.subtitle}>Choose how you’ll use the app</Text>
+      <Text style={styles.title}>{STRING.USER_ROLE.SELECT_ROLE}</Text>
+      <Text style={styles.subtitle}>{STRING.USER_ROLE.CHOOSE_ROLE}</Text>
 
       {roles.map(role => (
         <TouchableOpacity
           key={role.id}
-          style={[
-            styles.card,
-            selectedRole === role.id && styles.selectedCard,
-          ]}
+          style={[styles.card, selectedRole === role.id && styles.selectedCard]}
           onPress={() => setSelectedRole(role.id)}
         >
           <Icon
             name={role.icon}
-            size={28}
-            color= {color.background }
+            size={STRING.USER_ROLE.ICON_SIZE}
+            color={color.color.background}
             style={styles.icon}
           />
           <Text style={styles.cardTitle}>{role.title}</Text>
-          <Text style={styles.cardDescription}>
-            {role.description}
-          </Text>
+          <Text style={styles.cardDescription}>{role.description}</Text>
         </TouchableOpacity>
       ))}
 
       <TouchableOpacity
-        style={[
-          styles.button,
-          !selectedRole && styles.disabledButton,
-        ]}
+        style={[styles.button, !selectedRole && styles.disabledButton]}
         disabled={!selectedRole}
+        onPress={handleRegister}
       >
-        <Text style={styles.buttonText}>Continue</Text>
+        <Text style={styles.buttonText}>{STRING.BUTTONS.REGISTER}</Text>
       </TouchableOpacity>
-
     </View>
-  )
-}
+  );
+};
 
-export default UserRoleScreen
-
+export default UserRoleScreen;
