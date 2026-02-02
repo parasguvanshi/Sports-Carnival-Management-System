@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   ImageBackground,
   ListRenderItem,
-  Alert,
   FlatList,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -17,63 +16,37 @@ import { eventInfo } from '../../types/eventsData';
 import { color } from '../../theme/colorConstants';
 import { useAuth } from '../../context/AuthContext';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/Navigator';
-import { VALIDATE_MESSAGES } from '../../constant/validateConstant';
-import { getEvents, deleteEvent } from '../../services/EventStorage';
+import { AppStackParamList } from '../../navigation/AppStackNavigator';
 import { eventImage } from '../../constant/imageConstant';
 import { fonts } from '../../theme/fontsConstants';
-import { STRING } from '../../constant/stringConstant';
+import { STRINGCONSTANT } from '../../constant/stringConstant';
+import { eventViewModel } from '../../viewmodels/eventViewModel';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { BottomTabParamList } from '../../navigation/EventTabsNavigator';
 
-type props = NativeStackScreenProps<RootStackParamList, 'EventScreen'>;
+type props = CompositeScreenProps<
+  BottomTabScreenProps<BottomTabParamList, 'EventScreen'>,
+  NativeStackScreenProps<AppStackParamList>
+>;
 
 const EventScreen = ({ navigation }: props) => {
   const { user } = useAuth();
 
-  const [events, setEvents] = useState<eventInfo[]>([]);
-  const [searchText, setSearchText] = useState('');
-  const [activeTab, setActiveTab] = useState('today');
-
-  const today = new Date().toDateString();
+  const {
+    searchText,
+    activeTab,
+    filteredEvents,
+    setSearchText,
+    setActiveTab,
+    fetchEvents,
+    handleDelete,
+  } = eventViewModel(id => navigation.navigate('EditEvent', { eventId: id }));
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      const storedEvents = await getEvents();
-      setEvents(storedEvents);
-    };
-
-    fetchEvents();
-
     const unsubscribe = navigation.addListener('focus', fetchEvents);
     return unsubscribe;
-  }, []);
-
-  const handleDelete = async (id: number) => {
-    Alert.alert(VALIDATE_MESSAGES.DELETE, VALIDATE_MESSAGES.CONFIRM_DELETE, [
-      { text: VALIDATE_MESSAGES.CANCLE, style: 'cancel' },
-      {
-        text: VALIDATE_MESSAGES.DELETE,
-        style: 'destructive',
-        onPress: async () => {
-          await deleteEvent(id);
-          const updatedEvents = await getEvents();
-          setEvents(updatedEvents);
-          Alert.alert(VALIDATE_MESSAGES.DELETED);
-        },
-      },
-    ]);
-  };
-
-  const filteredEvents = events.filter(event => {
-    const eventDate = new Date(event.date).toDateString();
-    const matchesSearch = event.title
-      .toLowerCase()
-      .includes(searchText.toLowerCase());
-
-    const matchesTab =
-      activeTab === 'today' ? eventDate === today : eventDate > today;
-
-    return matchesSearch && matchesTab;
-  });
+  }, [navigation]);
 
   const handleNavigate = (item: eventInfo) => {
     navigation.navigate('EventDetails', { event: item });
@@ -92,49 +65,30 @@ const EventScreen = ({ navigation }: props) => {
           >
             <View style={styles.textLabel}>
               <Text style={styles.eventTitle}>{item.title}</Text>
-              <Text style={styles.eventText}>{item.date}</Text>
-              <Text style={styles.eventText}>{item.time}</Text>
+
+              {activeTab === STRINGCONSTANT.TAB.TODAY ? (
+                <Text style={styles.eventText}>{item.time}</Text>
+              ) : (
+                <Text style={styles.eventText}>{item.date}</Text>
+              )}
             </View>
 
             <View style={styles.actionRow}>
-              {(user?.role === 'admin' || user?.role === 'organiser') && (
-                <>
-                  <TouchableOpacity
-                    style={styles.iconBtn}
-                    onPress={() =>
-                      navigation.navigate('EditEvent', { eventId: item.id })
-                    }
-                  >
-                    <Icon
-                      name={STRING.ICON.EDIT}
-                      size={fonts.iconSize.sm}
-                      color={color.icon.editIcon}
-                    />
-                    <Text style={styles.iconText}>{STRING.BUTTONS.EDIT}</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={styles.iconBtn}
-                    onPress={() => handleDelete(item.id)}
-                  >
-                    <Icon
-                      name={STRING.ICON.DELETE}
-                      size={fonts.iconSize.sm}
-                      color={color.icon.deleteIcon}
-                    />
-                    <Text style={styles.iconText}>{STRING.BUTTONS.DELETE}</Text>
-                  </TouchableOpacity>
-                </>
-              )}
-
-              {user?.role === 'participant' && (
-                <TouchableOpacity style={styles.joinIconBtn}>
+              {user?.role === STRINGCONSTANT.ROLE.PARTICIPANT && (
+                <TouchableOpacity
+                  style={styles.joinIconBtn}
+                  onPress={() =>
+                    navigation.navigate('EventDetails', { event: item })
+                  }
+                >
                   <Icon
-                    name={STRING.ICON.LOGIN}
+                    name={STRINGCONSTANT.ICON.LOGIN}
                     size={fonts.iconSize.sm}
                     color={color.icon.primaryIcon}
                   />
-                  <Text style={styles.iconText}>{STRING.BUTTONS.JOIN}</Text>
+                  <Text style={styles.iconText}>
+                    {STRINGCONSTANT.BUTTONS.JOIN}
+                  </Text>
                 </TouchableOpacity>
               )}
             </View>
@@ -146,16 +100,16 @@ const EventScreen = ({ navigation }: props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header name={STRING.HEADER.EVENT} />
+      <Header name={STRINGCONSTANT.HEADER.EVENT} />
 
       <View style={styles.searchContainer}>
         <Icon
-          name={STRING.ICON.SEARCH}
+          name={STRINGCONSTANT.ICON.SEARCH}
           size={fonts.iconSize.lg}
           color={color.color.background}
         />
         <TextInput
-          placeholder={STRING.PLACEHOLDERS.SEARCH_EVENT}
+          placeholder={STRINGCONSTANT.PLACEHOLDERS.SEARCH_EVENT}
           style={styles.searchInput}
           value={searchText}
           onChangeText={setSearchText}
@@ -164,54 +118,89 @@ const EventScreen = ({ navigation }: props) => {
 
       <View style={styles.tabContainer}>
         <TouchableOpacity
-          style={[styles.tab, activeTab === 'today' && styles.activeTab]}
-          onPress={() => setActiveTab(STRING.BUTTONS.TODAY)}
+          style={[
+            styles.tab,
+            activeTab === STRINGCONSTANT.TAB.TODAY && styles.activeTab,
+          ]}
+          onPress={() => setActiveTab(STRINGCONSTANT.TAB.TODAY)}
         >
           <Text
             style={[
               styles.tabText,
-              activeTab === 'today' && styles.activeTabText,
+              activeTab === STRINGCONSTANT.TAB.TODAY && styles.activeTabText,
             ]}
           >
-            {STRING.BUTTONS.TODAY}
+            {STRINGCONSTANT.BUTTONS.TODAY}
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.tab, activeTab === 'upcoming' && styles.activeTab]}
-          onPress={() => setActiveTab(STRING.BUTTONS.UPCOMING)}
+          style={[
+            styles.tab,
+            activeTab === STRINGCONSTANT.TAB.UPCOMING && styles.activeTab,
+          ]}
+          onPress={() => setActiveTab(STRINGCONSTANT.TAB.UPCOMING)}
         >
           <Text
             style={[
               styles.tabText,
-              activeTab === 'upcoming' && styles.activeTabText,
+              activeTab === STRINGCONSTANT.TAB.UPCOMING && styles.activeTabText,
             ]}
           >
-            {STRING.BUTTONS.UPCOMING}
+            {STRINGCONSTANT.BUTTONS.UPCOMING}
           </Text>
         </TouchableOpacity>
 
-        {(user?.role === 'admin' || user?.role === 'organiser') && (
+        <TouchableOpacity
+          style={[
+            styles.tab,
+            activeTab === STRINGCONSTANT.TAB.COMPLETED && styles.activeTab,
+          ]}
+          onPress={() => setActiveTab(STRINGCONSTANT.TAB.COMPLETED)}
+        >
+          <Text
+            style={[
+              styles.tabText,
+              activeTab === STRINGCONSTANT.TAB.COMPLETED &&
+                styles.activeTabText,
+            ]}
+          >
+            {STRINGCONSTANT.BUTTONS.COMPLETED}
+          </Text>
+        </TouchableOpacity>
+
+        {(user?.role === STRINGCONSTANT.ROLE.ADMIN ||
+          user?.role === STRINGCONSTANT.ROLE.ORGANISER) && (
           <TouchableOpacity
             style={styles.createButton}
             onPress={() => navigation.navigate('CreateEvent', {})}
           >
             <Icon
-              name={STRING.ICON.ADD}
+              name={STRINGCONSTANT.ICON.ADD}
               size={fonts.iconSize.lg}
               color={color.color.background}
             />
-            <Text style={styles.createText}>{STRING.BUTTONS.CREATE_BUTTON}</Text>
+            <Text style={styles.createText}>
+              {STRINGCONSTANT.BUTTONS.CREATE_BUTTON}
+            </Text>
           </TouchableOpacity>
         )}
       </View>
 
-      <FlatList
-        data={filteredEvents}
-        keyExtractor={item => item.id.toString()}
-        renderItem={renderItem}
-        contentContainerStyle={{ paddingBottom: 150 }}
-      />
+      {filteredEvents.length === 0 ? (
+        <View>
+          <Text style={styles.emptyText}>
+            {STRINGCONSTANT.LABELS.NOT_FOUND}
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          data={filteredEvents}
+          keyExtractor={item => item.id.toString()}
+          renderItem={renderItem}
+          contentContainerStyle={styles.contentContainerStyle}
+        />
+      )}
     </SafeAreaView>
   );
 };

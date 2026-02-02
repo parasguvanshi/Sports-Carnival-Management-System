@@ -1,180 +1,235 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Alert,
+  Modal,
+  FlatList,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import styles from './editEventScreenStyle';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import Header from '../../components/header/Header';
-import { VALIDATE_MESSAGES } from '../../constant/validateConstant';
-import { getEvents, updateEvent } from '../../services/EventStorage';
-import { eventImage } from '../../constant/imageConstant';
+import styles from './editEventScreenStyle';
+import { STRINGCONSTANT } from '../../constant/stringConstant';
 import { color } from '../../theme/colorConstants';
-import { eventInfo } from '../../types/eventsData';
-import { STRING } from '../../constant/stringConstant';
+import { editEventViewModel } from '../../viewmodels/editEventViewModel';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AppStackParamList } from '../../navigation/AppStackNavigator';
+import { fonts } from '../../theme/fontsConstants';
 
-type ImageKey = keyof typeof eventImage;
+type Props = NativeStackScreenProps<AppStackParamList, 'EditEvent'>;
 
-const EditEventScreen = ({ route, navigation }: any) => {
+const EditEventScreen = ({ route, navigation }: Props) => {
   const { eventId } = route.params;
-  const [title, setTitle] = useState('');
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const [description, setDescription] = useState('');
-  const [imageKey, setImageKey] = useState<ImageKey>('event1');
-  const [format, setFormat] = useState('');
-  const [slot, setSlot] = useState('');
+  const {
+    title,
+    setTitle,
+    date,
+    setDate,
+    time,
+    setTime,
+    slot1v1,
+    setSlot1v1,
+    slot2v2,
+    setSlot2v2,
+    description,
+    setDescription,
+    handleEditEvent,
+    showDatePicker,
+    setShowDatePicker,
+    showTimePicker,
+    setShowTimePicker,
+    showSlotDropdown,
+    setShowSlotDropdown,
+    activeSlotType,
+    setActiveSlotType,
+    tempDate,
+    setTempDate,
+    tempTime,
+    setTempTime,
+  } = editEventViewModel(eventId, navigation);
 
-  useEffect(() => {
-    const loadEvent = async () => {
-      const events = await getEvents();
-      const event = events.find((event: eventInfo) => event.id === eventId);
-
-      if (event) {
-        setTitle(event.title);
-        setDate(event.date);
-        setTime(event.time);
-        setFormat(event.format);
-        setDescription(event.description);
-        setImageKey(event.image as ImageKey);
-        setSlot(event.slot || '');
-      }
-    };
-    loadEvent();
-  }, [eventId]);
-
-  const handleEditEvent = async () => {
-
-    if (!title || !date || !time || !slot || !imageKey) {
-      Alert.alert(VALIDATE_MESSAGES.FIELD_REQUIRED);
-      return;
-    }
-
-    const updatedEvent = {
-      id: eventId,
-      title,
-      date,
-      time,
-      description,
-      format,
-      image: imageKey,
-      slot,
-    };
-
-    try {
-      await updateEvent(eventId, updatedEvent);
-      Alert.alert(VALIDATE_MESSAGES.EVENT_EDITED);
-      navigation.goBack();
-
-    } catch (error) {
-      if (error instanceof Error) {
-        Alert.alert(error.message);
-      }
-    }
-  };
+ 
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header name={STRING.HEADER.EDIT_EVENT} />
-
+      <Header name={STRINGCONSTANT.HEADER.EDIT_EVENT} />
       <ScrollView contentContainerStyle={styles.inputContainerList}>
+    
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>{STRING.LABELS.EVENT_TITLE}</Text>
-          <TextInput
-            style={styles.input}
-            placeholder={STRING.PLACEHOLDERS.EVENT_TITLE}
-            value={title}
-            onChangeText={setTitle}
-          />
+          <Text style={styles.label}>{STRINGCONSTANT.LABELS.EVENT_TITLE}</Text>
+          <TextInput style={styles.input} value={title} onChangeText={setTitle} />
         </View>
 
+     
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>{STRING.LABELS.EVENT_DATE}</Text>
-          <TextInput
-            style={styles.input}
-            placeholder={STRING.PLACEHOLDERS.EVENT_DATE}
-            value={date}
-            onChangeText={setDate}
-          />
-        </View>
+          <Text style={styles.label}>Event Date</Text>
+          <TouchableOpacity
+            style={[styles.input, styles.iconInput]}
+            onPress={() => {
+              setTempDate(date ? new Date(date) : new Date());
+              setShowDatePicker(true);
+            }}
+          >
+            <Text style={{ color: date ? color.text.textPrimary : color.text.textGrey }}>
+              {date}
+            </Text>
+            <Icon name={STRINGCONSTANT.ICON.CALENDER} size={fonts.iconSize.lg} color={color.text.textPrimary} />
+          </TouchableOpacity>
 
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}></Text>
-          <TextInput
-            style={styles.input}
-            placeholder={STRING.PLACEHOLDERS.EVENT_TIME}
-            value={time}
-            onChangeText={setTime}
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>{STRING.LABELS.FORMAT}</Text>
-          <TextInput
-            style={styles.input}
-            placeholder={STRING.PLACEHOLDERS.FORMAT}
-            value={format}
-            onChangeText={setFormat}
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>{STRING.LABELS.SLOT_REMAIN}</Text>
-          <TextInput
-            style={styles.input}
-            placeholder={STRING.PLACEHOLDERS.SLOT}
-            value={slot}
-            onChangeText={setSlot}
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>{STRING.LABELS.EVENT_IMAGE}</Text>
-          <View style={styles.keyAlignment}>
-            {Object.keys(eventImage).map(key => (
-              <TouchableOpacity
-                key={key}
-                onPress={() => setImageKey(key as ImageKey)}
-                style={
-                  imageKey === key
-                    ? styles.keyContainerOptional
-                    : styles.keyContainer
-                }
-              >
-                <Text
-                  style={{
-                    color:
-                      imageKey === key
-                        ? color.color.buttonBackground
-                        : color.color.background,
+   
+          <Modal transparent visible={showDatePicker} animationType="fade">
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}>
+                <DateTimePicker
+                  value={tempDate || new Date()}
+                  mode="date"
+                  display="spinner"
+                  onChange={(_, selectedDate) => selectedDate && setTempDate(selectedDate)}
+                />
+                <TouchableOpacity
+                  style={styles.Modal}
+                  onPress={() => {
+                    if (tempDate) {
+                      const yyyy = tempDate.getFullYear();
+                      const mm = String(tempDate.getMonth() + 1).padStart(2, '0');
+                      const dd = String(tempDate.getDate()).padStart(2, '0');
+                      setDate(`${yyyy}-${mm}-${dd}`);
+                    }
+                    setShowDatePicker(false);
                   }}
                 >
-                  {key}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+                  <Text style={{ color: color.color.buttonBackground, fontWeight: fonts.fontsWeight.medium }}>
+                    {STRINGCONSTANT.BUTTONS.DONE}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+        </View>
+
+      
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>{STRINGCONSTANT.LABELS.EVENT_TIME}</Text>
+          <TouchableOpacity
+            style={[styles.input, styles.iconInput]}
+            onPress={() => {
+              setTempTime(time ? new Date(`1970-01-01T${time}:00`) : new Date());
+              setShowTimePicker(true);
+            }}
+          >
+            <Text style={{ color: time ? color.text.textPrimary : color.text.textGrey }}>
+              {time}
+            </Text>
+            <Icon name={STRINGCONSTANT.ICON.ACCESS_TIME} size={fonts.iconSize.md} color={color.text.textPrimary} />
+          </TouchableOpacity>
+
+          <Modal transparent visible={showTimePicker} animationType="fade">
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}>
+                <DateTimePicker
+                  value={tempTime || new Date()}
+                  mode="time"
+                  display="spinner"
+                  onChange={(_, selectedTime) => selectedTime && setTempTime(selectedTime)}
+                />
+                <TouchableOpacity
+                  style={styles.Modal}
+                  onPress={() => {
+                    if (tempTime) {
+                      const h = String(tempTime.getHours()).padStart(2, '0');
+                      const m = String(tempTime.getMinutes()).padStart(2, '0');
+                      setTime(`${h}:${m}`);
+                    }
+                    setShowTimePicker(false);
+                  }}
+                >
+                  <Text style={{ color: color.color.buttonBackground, fontWeight: fonts.fontsWeight.medium }}>
+                    {STRINGCONSTANT.BUTTONS.DONE}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+        </View>
+
+     
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>{STRINGCONSTANT.LABELS.SLOT1}</Text>
+          <TouchableOpacity
+            style={[styles.input, styles.iconInput]}
+            onPress={() => {
+              setActiveSlotType('1v1');
+              setShowSlotDropdown(true);
+            }}
+          >
+            <Text style={{ color: slot1v1 ? color.text.textPrimary : color.text.textGrey }}>
+              {slot1v1 || STRINGCONSTANT.LABELS.SELECT_SLOT}
+            </Text>
+            <Icon name={STRINGCONSTANT.ICON.ARROW_DOWN} size={fonts.iconSize.lg} color={color.text.textPrimary} />
+          </TouchableOpacity>
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>{STRING.LABELS.DESCRIPTION}</Text>
+          <Text style={styles.label}>{STRINGCONSTANT.LABELS.SLOT2}</Text>
+          <TouchableOpacity
+            style={[styles.input, styles.iconInput]}
+            onPress={() => {
+              setActiveSlotType('2v2');
+              setShowSlotDropdown(true);
+            }}
+          >
+            <Text style={{ color: slot2v2 ? color.text.textPrimary : color.text.textGrey }}>
+              {slot2v2 || STRINGCONSTANT.LABELS.SELECT_SLOT}
+            </Text>
+            <Icon name={STRINGCONSTANT.ICON.ARROW_DOWN} size={fonts.iconSize.lg} color={color.text.textPrimary} />
+          </TouchableOpacity>
+        </View>
+
+        <Modal transparent visible={showSlotDropdown} animationType="fade">
+          <TouchableOpacity
+            style={styles.dropdownOverlay}
+            onPress={() => setShowSlotDropdown(false)}
+            activeOpacity={1}
+          >
+            <View style={styles.dropdownContainer}>
+              <FlatList
+                data={STRINGCONSTANT.ARRAY.SLOTOPTIONS}
+                keyExtractor={item => item.toString()}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={styles.dropdownItem}
+                    onPress={() => {
+                      activeSlotType === STRINGCONSTANT.TAB.ivi ? setSlot1v1(item) : setSlot2v2(item);
+                      setShowSlotDropdown(false);
+                    }}
+                  >
+                    <Text style={styles.dropdownText}>{item}</Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          </TouchableOpacity>
+        </Modal>
+
+   
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>{STRINGCONSTANT.LABELS.DESCRIPTION}</Text>
           <TextInput
             style={[styles.input, styles.textArea]}
-            placeholder={STRING.PLACEHOLDERS.DESCRIPTION}
             value={description}
             onChangeText={setDescription}
             multiline
-            numberOfLines={STRING.APP.LINES}
           />
         </View>
       </ScrollView>
 
+    
       <TouchableOpacity style={styles.createButton} onPress={handleEditEvent}>
-        <Text style={styles.createButtonText}>{STRING.BUTTONS.EDIT_EVENT}</Text>
+        <Text style={styles.createButtonText}>{STRINGCONSTANT.BUTTONS.EDIT_EVENT}</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

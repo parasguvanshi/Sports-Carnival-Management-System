@@ -1,25 +1,17 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
-  UserData,
   saveUser,
   getUser,
   clearUser,
   getAllUsers,
   setLoggedInUser,
   updateUserRole,
+  removeUser,
 } from '../services/AuthStorage';
-import { Alert } from 'react-native';
 import { VALIDATE_MESSAGES } from '../constant/validateConstant';
+import { AuthContextType, UserData } from '../types/auth';
 
-type AuthContextType = {
-  user: UserData | null;
-  login: (email: string, password: string) => Promise<boolean>;
-  logout: () => Promise<void>;
-  register: (user: UserData) => Promise<void>;
-  setUserRole: (email: string, role: UserData['role']) => Promise<boolean>;
-};
-
-const AuthContext = createContext<AuthContextType>(null as any);
+const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserData | null>(null);
@@ -35,8 +27,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     );
 
     if (!existingUser) {
-      Alert.alert(VALIDATE_MESSAGES.USER_NOT_EXIST);
-      return false;
+      throw new Error(VALIDATE_MESSAGES.USER_NOT_EXIST);
     }
 
     await setLoggedInUser(existingUser);
@@ -58,13 +49,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(null);
   };
 
+  const deleteUser = async (email: string) => {
+    await removeUser(email);
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, register, setUserRole }}
+      value={{ user, login, logout, register, setUserRole, deleteUser }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error(VALIDATE_MESSAGES.CONTEXT);
+  }
+
+  return context;
+};

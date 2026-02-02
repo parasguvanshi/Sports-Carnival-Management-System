@@ -12,22 +12,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: color.color.secondary,
     paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderRadius: 8,
+    paddingVertical: 12,
+    borderRadius: 16,
     alignItems: 'center',
   },
 
   searchInput: {
     marginLeft: 8,
     flex: 1,
-    fontSize: 16,
+    fontSize: fonts.fontSizes.xxs,
     color: color.text.textPrimary,
   },
 
   card: {
-    height: 220,
+    height: 180,
     padding: 3,
-    borderRadius: 15,
+    borderRadius: 16,
     overflow: 'hidden',
     marginBottom: 12,
     backgroundColor: color.color.secondary,
@@ -56,15 +56,15 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   eventTitle: {
-    fontSize: fonts.fontSizes.lg,
+    fontSize: fonts.fontSizes.xl,
     fontWeight: fonts.fontsWeight.semiBold,
     color: color.text.textSecondary,
   },
 
   eventText: {
     color: color.text.textSecondary,
-    fontSize: fonts.fontSizes.sm,
-    fontWeight: fonts.fontsWeight.medium,
+    fontSize: fonts.fontSizes.lg,
+    fontWeight: fonts.fontsWeight.semiBold,
   },
   actionRow: {
     flexDirection: 'row',
@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     paddingHorizontal: 7,
     borderRadius: 20,
-    cursor: 'pointer',
   },
   iconText: {
     color: color.text.textPrimary,
@@ -98,23 +97,23 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     paddingHorizontal: 15,
     borderRadius: 20,
-    cursor: 'pointer',
   },
   tabContainer: {
-    borderRadius: 30,
+    borderRadius: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginVertical: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 7,
+    paddingVertical: 6,
+    paddingHorizontal: 2,
     backgroundColor: color.color.secondary,
   },
 
   tab: {
     flex: 1,
-    paddingVertical: 10,
-    borderRadius: 20,
+    paddingVertical: 11,
+    paddingHorizontal: 2,
+    borderRadius: 16,
     alignItems: 'center',
     marginHorizontal: 4,
   },
@@ -124,30 +123,38 @@ const styles = StyleSheet.create({
   },
 
   tabText: {
-    fontSize: 14,
-    color: color.text.textPrimary,
-    fontWeight: '500',
+    color: color.text.textGrey,
+    fontWeight: fonts.fontsWeight.medium,
   },
 
   activeTabText: {
     color: color.text.textPrimary,
+    fontWeight: fonts.fontsWeight.medium,
   },
 
   createButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 14,
+    paddingHorizontal: 8,
     paddingVertical: 10,
     backgroundColor: color.color.createButton,
-    borderRadius: 24,
-    marginHorizontal: 6,
+    borderRadius: 16,
+    marginHorizontal: 2,
     elevation: 3,
   },
 
   createText: {
     color: color.text.textPrimary,
-    fontWeight: '600',
-    marginLeft: 4,
+    fontWeight: fonts.fontsWeight.medium,
+    marginLeft: 2,
+  },
+  contentContainerStyle: {
+    paddingBottom: 150,
+  },
+  emptyText: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: fonts.fontSizes.lg,
   },
 });
 

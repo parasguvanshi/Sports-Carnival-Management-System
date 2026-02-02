@@ -8,6 +8,7 @@ export const color = {
     borderPrimary: '#000000',
     disableColor: '#726d6d',
     createButton: '#38d655',
+    backgroundRgba : 'rgba(0,0,0,0.25)'
   },
 
   text: {

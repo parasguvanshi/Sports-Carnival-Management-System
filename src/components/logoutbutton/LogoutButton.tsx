@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './logoutButtonStyle';
 import { useAuth } from '../../context/AuthContext';
 import { VALIDATE_MESSAGES} from '../../constant/validateConstant';
-import { STRING } from '../../constant/stringConstant';
+import { STRINGCONSTANT } from '../../constant/stringConstant';
 
 const LogoutButton = () => {
   const { logout } = useAuth();
@@ -29,7 +29,7 @@ const LogoutButton = () => {
   return (
     <View>
       <TouchableOpacity style={styles.buttonContainer} onPress={handleLogout}>
-        <Text style={styles.buttonText}>{STRING.BUTTONS.LOGOUT}</Text>
+        <Text style={styles.buttonText}>{STRINGCONSTANT.BUTTONS.LOGOUT}</Text>
       </TouchableOpacity>
     </View>
   );

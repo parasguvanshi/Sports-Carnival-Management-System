@@ -1,48 +1,32 @@
-import { View, Text, TextInput, Pressable, Alert } from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, TextInput, Pressable } from 'react-native';
+import React from 'react';
 
 import styles from './loginScreenStyle';
 import Button from '../../components/button/Button';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/Navigator';
+import { AuthStackParamList } from '../../navigation/AuthStackNavigator';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { STRINGCONSTANT } from '../../constant/stringConstant';
 import { loginViewModel } from '../../viewmodels/loginViewModel';
-import { VALIDATE_MESSAGES } from '../../constant/validateConstant';
-import { useAuth } from '../../context/AuthContext';
-import { STRING } from '../../constant/stringConstant';
+import { Image } from 'react-native';
+import { logo } from '../../constant/imageConstant';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { color } from '../../theme/colorConstants';
+import { fonts } from '../../theme/fontsConstants';
 
-type props = NativeStackScreenProps<RootStackParamList, 'Login'>;
+type props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 const LoginScreen = ({ navigation }: props) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const { login } = useAuth();
-
-  const handleLogin = async () => {
-    const payload = {
-      email,
-      password,
-    };
-
-    const result = loginViewModel(payload);
-
-    if (!result.success) {
-      Alert.alert(result.message ?? VALIDATE_MESSAGES.LOGIN_FAILED);
-      return;
-    }
-
-    try {
-      const success = await login(email, password);
-    } catch (error) {
-      if (error instanceof Error) {
-        Alert.alert(error.message);
-      }
-    }
-  };
-
-  const isButtonDisabled: boolean =
-    email.trim() === '' || password.trim() === '';
+  const {
+    email,
+    password,
+    setEmail,
+    setPassword,
+    handleLogin,
+    showPassword,
+    setShowPassword,
+    isButtonDisabled,
+  } = loginViewModel();
 
   return (
     <KeyboardAwareScrollView
@@ -52,65 +36,74 @@ const LoginScreen = ({ navigation }: props) => {
       keyboardShouldPersistTaps="handled"
     >
       <View style={styles.container}>
+        <View style={styles.imageContainer}>
+          <View style={styles.innerImageContainer}>
+            <Image source={logo.LOGO} style={styles.image} />
+          </View>
+        </View>
+
         <View style={styles.headerContainer}>
-          <Text style={styles.headerText}>
-            {STRING.APP.HEY}
-            {'\n'}
-            {STRING.APP.WELCOME}
-          </Text>
+          <Text style={styles.headerText}>{STRINGCONSTANT.APP.WELCOME}</Text>
         </View>
 
         <View style={styles.inputFieldContainer}>
-          <Text style={styles.labelText}>{STRING.LABELS.EMAIL}</Text>
+          <Text style={styles.labelText}>{STRINGCONSTANT.LABELS.EMAIL}</Text>
           <TextInput
             value={email}
             style={styles.inputField}
-            placeholder={STRING.PLACEHOLDERS.EMAIL}
+            placeholder={STRINGCONSTANT.PLACEHOLDERS.EMAIL}
             onChangeText={setEmail}
           />
         </View>
 
         <View style={styles.inputFieldContainer}>
-          <Text style={styles.labelText}>{STRING.LABELS.PASSWORD}</Text>
+          <Text style={styles.labelText}>{STRINGCONSTANT.LABELS.PASSWORD}</Text>
 
-          <TextInput
-            value={password}
-            style={styles.inputField}
-            secureTextEntry={true}
-            placeholder={STRING.PLACEHOLDERS.PASSWORD}
-            onChangeText={setPassword}
-          />
-        </View>
+          <View style={styles.passwordContainer}>
+            <TextInput
+              value={password}
+              style={styles.inputField}
+              secureTextEntry={!showPassword}
+              placeholder={STRINGCONSTANT.PLACEHOLDERS.PASSWORD}
+              onChangeText={setPassword}
+            />
 
-        <View>
-          <Button
-            name={STRING.BUTTONS.LOGIN}
-            onPress={handleLogin}
-            disabled={isButtonDisabled}
-          />
-        </View>
-
-        <View style={styles.textAlignmentContainer}>
-          <Pressable
-            onPress={() => {
-              navigation.navigate('ForgotPassword', {});
-            }}
-          >
-            <Text style={styles.forgotPasswordText}>
-              {STRING.LABELS.FORGOT_PASSWORD}
-            </Text>
-          </Pressable>
-
-          <View style={styles.signUpButtonText}>
-            <Text>{STRING.ACCOUNT.NO_ACCOUNT}</Text>
             <Pressable
-              onPress={() => {
-                navigation.navigate('Register', {});
-              }}
+              onPress={() => setShowPassword(prev => !prev)}
+              style={styles.eyeIcon}
             >
-              <Text style={styles.buttonText}>{STRING.BUTTONS.SIGNUP}</Text>
+              <Icon
+                name={
+                  showPassword
+                    ? STRINGCONSTANT.ICON.VISIBILITY_OFF
+                    : STRINGCONSTANT.ICON.VISIBILITY
+                }
+                size={fonts.iconSize.lg}
+                color={color.color.background}
+              />
             </Pressable>
           </View>
+        </View>
+
+        <Pressable onPress={() => navigation.navigate('ForgotPassword', {})}>
+          <Text style={styles.forgotPasswordText}>
+            {STRINGCONSTANT.LABELS.FORGOT_PASSWORD}
+          </Text>
+        </Pressable>
+
+        <Button
+          name={STRINGCONSTANT.BUTTONS.LOGIN}
+          onPress={handleLogin}
+          disabled={isButtonDisabled}
+        />
+
+        <View style={styles.signUpButtonText}>
+          <Text>{STRINGCONSTANT.ACCOUNT.NO_ACCOUNT}</Text>
+          <Pressable onPress={() => navigation.navigate('Register', {})}>
+            <Text style={styles.buttonText}>
+              {STRINGCONSTANT.BUTTONS.SIGNUP}
+            </Text>
+          </Pressable>
         </View>
       </View>
     </KeyboardAwareScrollView>
