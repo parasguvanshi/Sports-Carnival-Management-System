@@ -5,8 +5,9 @@ import { STRINGCONSTANT } from '../constant/stringConstant';
 import { ToastService } from '../utils/toast';
 import { VALIDATE_MESSAGES } from '../constant/validateConstant';
 
-const canCreateEvent = (role?: string) =>
-  role === STRINGCONSTANT.ROLE.ADMIN || role === STRINGCONSTANT.ROLE.ORGANISER;
+const canCreateEvent = (role?: string) => {
+  return role === STRINGCONSTANT.ROLE.ADMIN || role === STRINGCONSTANT.ROLE.ORGANISER;
+}
 
 export const saveEvents = async (events: eventInfo[]) => {
   try {

@@ -6,12 +6,12 @@ import {
   getAllUsers,
   setLoggedInUser,
   updateUserRole,
+  removeUser,
 } from '../services/AuthStorage';
 import { VALIDATE_MESSAGES } from '../constant/validateConstant';
-import { removeUser } from '../services/AuthStorage';
 import { AuthContextType, UserData } from '../types/auth';
 
-const AuthContext = createContext<AuthContextType>(null as any);
+const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserData | null>(null);
@@ -62,4 +62,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error(VALIDATE_MESSAGES.CONTEXT);
+  }
+
+  return context;
+};

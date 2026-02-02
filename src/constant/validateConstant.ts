@@ -38,5 +38,6 @@ export const VALIDATE_MESSAGES = {
   SLOT_FULL : 'Slot Full',
   EVENT_CREATION_ALLOWED : 'Only admin or organiser can create events',
   ALREADY_JOINED_EVENT : 'Already Joined Event',
-  PARTICIPANTS_ALLOWED : 'Only participants are allowed'
+  PARTICIPANTS_ALLOWED : 'Only participants are allowed',
+  CONTEXT : 'useAuth must be used within an AuthProvider',
 };
