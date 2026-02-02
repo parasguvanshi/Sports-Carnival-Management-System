@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getEvents, updateEvent } from '../services/EventStorage';
 import { VALIDATE_MESSAGES } from '../constant/validateConstant';
 import { eventImage } from '../constant/imageConstant';
-import { eventInfo, EventSlot, FormatType } from '../types/eventsData';
+import { eventInfo, EventSlot } from '../types/eventsData';
 import { ToastService } from '../utils/toast';
 import { STRINGCONSTANT } from '../constant/stringConstant';
 

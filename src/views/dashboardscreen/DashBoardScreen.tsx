@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -15,7 +15,7 @@ import styles from './dashBoardScreenStyle';
 import { color } from '../../theme/colorConstants';
 import { dashBoardViewModel } from '../../viewmodels/dashBoardViewModal';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/StackNavigator';
+import { AppStackParamList } from '../../navigation/AppStackNavigator';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { BottomTabParamList } from '../../navigation/EventTabsNavigator';
@@ -24,7 +24,7 @@ import { fonts } from '../../theme/fontsConstants';
 
 type props = CompositeScreenProps<
   BottomTabScreenProps<BottomTabParamList, 'DashBoardScreen'>,
-  NativeStackScreenProps<RootStackParamList>
+  NativeStackScreenProps<AppStackParamList>
 >;
 
 const DashBoardScreen = ({ navigation }: props) => {

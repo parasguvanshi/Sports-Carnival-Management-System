@@ -2,18 +2,17 @@ import React from 'react';
 import { View, Text, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
 import styles from './eventDetailsScreenStyle';
 import { color } from '../../theme/colorConstants';
 import Header from '../../components/header/Header';
 import Button from '../../components/button/Button';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/StackNavigator';
+import { AppStackParamList } from '../../navigation/AppStackNavigator';
 import { STRINGCONSTANT } from '../../constant/stringConstant';
 import { fonts } from '../../theme/fontsConstants';
 import { eventDetailsViewModel } from '../../viewmodels/eventDetailsViewModel';
 
-type Props = NativeStackScreenProps<RootStackParamList,'EventDetails'>;
+type Props = NativeStackScreenProps<AppStackParamList,'EventDetails'>;
 
 const EventDetailsScreen = ({ navigation ,route }: Props) => {
   const { event } = route.params;

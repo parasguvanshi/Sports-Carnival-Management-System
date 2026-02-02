@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from './userListItemStyle';
-import { UserData } from '../../services/AuthStorage';
+import { UserData } from '../../types/auth';
 import { color } from '../../theme/colorConstants';
 import { fonts } from '../../theme/fontsConstants';
 import { STRINGCONSTANT } from '../../constant/stringConstant';

@@ -7,9 +7,8 @@ import {
   setLoggedInUser,
   updateUserRole,
 } from '../services/AuthStorage';
-import { Alert } from 'react-native';
 import { VALIDATE_MESSAGES } from '../constant/validateConstant';
-import { deleteUser as removeUser } from '../services/AuthStorage';
+import { removeUser } from '../services/AuthStorage';
 import { AuthContextType, UserData } from '../types/auth';
 
 const AuthContext = createContext<AuthContextType>(null as any);

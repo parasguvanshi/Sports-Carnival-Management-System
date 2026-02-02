@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -11,17 +11,16 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
 import Header from '../../components/header/Header';
 import styles from './editEventScreenStyle';
 import { STRINGCONSTANT } from '../../constant/stringConstant';
 import { color } from '../../theme/colorConstants';
 import { editEventViewModel } from '../../viewmodels/editEventViewModel';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/StackNavigator';
+import { AppStackParamList } from '../../navigation/AppStackNavigator';
 import { fonts } from '../../theme/fontsConstants';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'EditEvent'>;
+type Props = NativeStackScreenProps<AppStackParamList, 'EditEvent'>;
 
 const EditEventScreen = ({ route, navigation }: Props) => {
   const { eventId } = route.params;

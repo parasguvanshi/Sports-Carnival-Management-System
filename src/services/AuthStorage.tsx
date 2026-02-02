@@ -3,9 +3,6 @@ import { VALIDATE_MESSAGES } from '../constant/validateConstant';
 import { STRINGCONSTANT } from '../constant/stringConstant';
 import { UserData } from '../types/auth';
 
-const USER_KEY = 'APP_USER';
-const LOGGED_IN_USER_KEY = 'LOGGED_IN_USER';
-
 export const saveUser = async (user: UserData) => {
   const users = await getAllUsers();
 
@@ -16,24 +13,24 @@ export const saveUser = async (user: UserData) => {
 
   const updatedUsers = [...users, user];
 
-  await AsyncStorage.setItem(USER_KEY, JSON.stringify(updatedUsers));
+  await AsyncStorage.setItem(STRINGCONSTANT.KEY.USER_KEY, JSON.stringify(updatedUsers));
 };
 
 export const setLoggedInUser = async (user: UserData) => {
-  await AsyncStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(user));
+  await AsyncStorage.setItem(STRINGCONSTANT.KEY.LOGGED_IN_USER_KEY, JSON.stringify(user));
 };
 
 export const getUser = async (): Promise<UserData | null> => {
-  const data = await AsyncStorage.getItem(LOGGED_IN_USER_KEY);
+  const data = await AsyncStorage.getItem(STRINGCONSTANT.KEY.LOGGED_IN_USER_KEY);
   return data ? JSON.parse(data) : null;
 };
 
 export const clearUser = async () => {
-  await AsyncStorage.removeItem(LOGGED_IN_USER_KEY);
+  await AsyncStorage.removeItem(STRINGCONSTANT.KEY.LOGGED_IN_USER_KEY);
 };
 
 export const getAllUsers = async (): Promise<UserData[]> => {
-  const data = await AsyncStorage.getItem(USER_KEY);
+  const data = await AsyncStorage.getItem(STRINGCONSTANT.KEY.USER_KEY);
   return data ? JSON.parse(data) : [];
 };
 
@@ -44,10 +41,10 @@ export const updateUserRole = async (email: string, role: UserData['role']) => {
     user.email === email ? { ...user, role } : user,
   );
 
-  await AsyncStorage.setItem(USER_KEY, JSON.stringify(updatedUsers));
+  await AsyncStorage.setItem(STRINGCONSTANT.KEY.USER_KEY, JSON.stringify(updatedUsers));
 };
 
-export const deleteUser = async (email: string) => {
+export const removeUser = async (email: string) => {
   const currentUser = await getUser();
 
   if (!currentUser || currentUser.role !== STRINGCONSTANT.ROLE.ADMIN) {
@@ -57,6 +54,6 @@ export const deleteUser = async (email: string) => {
   const users = await getAllUsers();
   const updatedUsers = users.filter(user => user.email !== email);
 
-  await AsyncStorage.setItem(USER_KEY, JSON.stringify(updatedUsers));
+  await AsyncStorage.setItem(STRINGCONSTANT.KEY.USER_KEY, JSON.stringify(updatedUsers));
 };
 

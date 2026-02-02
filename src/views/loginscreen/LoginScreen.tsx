@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './loginScreenStyle';
 import Button from '../../components/button/Button';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/StackNavigator';
+import { AuthStackParamList } from '../../navigation/AuthStackNavigator';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { STRINGCONSTANT } from '../../constant/stringConstant';
 import { loginViewModel } from '../../viewmodels/loginViewModel';
@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { color } from '../../theme/colorConstants';
 import { fonts } from '../../theme/fontsConstants';
 
-type props = NativeStackScreenProps<RootStackParamList, 'Login'>;
+type props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 const LoginScreen = ({ navigation }: props) => {
   const {

@@ -11,10 +11,10 @@ import Header from '../../components/header/Header';
 import styles from './teamRegistrationScreenStyle';
 import { teamRegistrationViewModel } from '../../viewmodels/teamRegistrationViewModel';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/StackNavigator';
+import { AppStackParamList } from '../../navigation/AppStackNavigator';
 import { STRINGCONSTANT } from '../../constant/stringConstant';
 
-type props = NativeStackScreenProps<RootStackParamList, 'TeamRegistration'>;
+type props = NativeStackScreenProps<AppStackParamList, 'TeamRegistration'>;
 
 const TeamRegistrationScreen = ({ route }: props) => {
   const { eventId } = route.params;
@@ -49,7 +49,9 @@ const TeamRegistrationScreen = ({ route }: props) => {
                   activeFormat === tab && styles.activeTabText,
                 ]}
               >
-                {tab === STRINGCONSTANT.TAB.ivi ? STRINGCONSTANT.TAB.IvsI : STRINGCONSTANT.TAB.IIvsII}
+                {tab === STRINGCONSTANT.TAB.ivi
+                  ? STRINGCONSTANT.TAB.IvsI
+                  : STRINGCONSTANT.TAB.IIvsII}
               </Text>
             </TouchableOpacity>
           ))}
@@ -77,22 +79,22 @@ const TeamRegistrationScreen = ({ route }: props) => {
 
           <Text style={styles.label}>{STRINGCONSTANT.LABELS.GENDER}</Text>
           <View style={styles.genderContainer}>
-            {STRINGCONSTANT.ARRAY.GENDER.map(gender => (
+            {STRINGCONSTANT.ARRAY.GENDER.map(g => (
               <TouchableOpacity
-                key={gender}
+                key={g}
                 style={[
                   styles.genderChip,
-                  gender === gender && styles.genderChipActive,
+                  gender === g && styles.genderChipActive,
                 ]}
-                onPress={() => setGender(gender)}
+                onPress={() => setGender(g)}
               >
                 <Text
                   style={[
                     styles.genderText,
-                    gender === gender && styles.genderTextActive,
+                    gender === g && styles.genderTextActive,
                   ]}
                 >
-                  {gender}
+                  {g}
                 </Text>
               </TouchableOpacity>
             ))}

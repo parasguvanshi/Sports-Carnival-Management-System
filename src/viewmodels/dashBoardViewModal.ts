@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getEvents, deleteEvent, updateEvent } from '../services/EventStorage';
+import { useCallback, useMemo, useState } from 'react';
+import { getEvents, deleteEvent} from '../services/EventStorage';
 import { useAuth } from '../context/AuthContext';
 import { DayTab, eventInfo } from '../types/eventsData';
 import { useFocusEffect } from '@react-navigation/native';
@@ -34,8 +34,8 @@ export const dashBoardViewModel = (navigation: any) => {
         activeTab === 'today'
           ? eventDate === today
           : activeTab === 'upcoming'
-          ? eventDate < today
-          : eventDate > today;
+          ? eventDate > today 
+        : eventDate < today;
 
       return matchesSearch && matchesTab;
     });
@@ -47,7 +47,7 @@ export const dashBoardViewModel = (navigation: any) => {
       filtered = filtered.filter(event => event.createdBy === user.email);
     } else if (user?.role === STRINGCONSTANT.ROLE.PARTICIPANT) {
       filtered = filtered.filter(event =>
-        event.participants?.includes(user.email),
+        event.slots.some(slot => slot.participants.includes(user.email))
       );
     }
 
@@ -74,8 +74,9 @@ export const dashBoardViewModel = (navigation: any) => {
       return events.filter(event => event.createdBy === user.email).length;
     }
 
-    return events.filter(event => event.participants?.includes(user.email))
-      .length;
+    return events.filter(event => 
+      event.slots.some(slot => slot.participants.includes(user.email))
+    ).length;
   }, [events, user]);
 
   const canCreateEvent =

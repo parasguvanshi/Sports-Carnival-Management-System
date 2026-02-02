@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './registerScreenStyle';
 import Button from '../../components/button/Button';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/StackNavigator';
+import { AuthStackParamList } from '../../navigation/AuthStackNavigator';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { STRINGCONSTANT } from '../../constant/stringConstant';
 import { registerViewModel } from '../../viewmodels/registerViewModel';
@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { color } from '../../theme/colorConstants';
 import { fonts } from '../../theme/fontsConstants';
 
-type props = NativeStackScreenProps<RootStackParamList, 'Register'>;
+type props = NativeStackScreenProps<AuthStackParamList, 'Register'>;
 
 const RegisterScreen = ({ navigation }: props) => {
   const {

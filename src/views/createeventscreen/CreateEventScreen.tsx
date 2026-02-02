@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -16,12 +16,12 @@ import { STRINGCONSTANT } from '../../constant/stringConstant';
 import { eventImage } from '../../constant/imageConstant';
 import { color } from '../../theme/colorConstants';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/StackNavigator';
+import { AppStackParamList } from '../../navigation/AppStackNavigator';
 import { createEventViewModel } from '../../viewmodels/createEventViewModel';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { fonts } from '../../theme/fontsConstants';
 
-type props = NativeStackScreenProps<RootStackParamList, 'CreateEvent'>;
+type props = NativeStackScreenProps<AppStackParamList, 'CreateEvent'>;
 
 const CreateEventScreen = ({ navigation }: props) => {
   const {
@@ -102,7 +102,9 @@ const CreateEventScreen = ({ navigation }: props) => {
                   mode="date"
                   display="spinner"
                   onChange={(event, selectedDate) => {
-                    if (selectedDate) setTempDate(selectedDate);
+                    if (selectedDate) {
+                      setTempDate(selectedDate);
+                    }
                   }}
                 />
 
@@ -254,10 +256,10 @@ const CreateEventScreen = ({ navigation }: props) => {
           <Text style={styles.label}>{STRINGCONSTANT.LABELS.MATCH_TYPE}</Text>
           <View style={styles.formatSlotRow}>
             <TouchableOpacity
-              style={matchType === STRINGCONSTANT.LABELS.KNOCKOUT  ? styles.formatButtonSelected : styles.formatButton}
+              style={matchType === STRINGCONSTANT.LABELS.ROUNDROBIN  ? styles.formatButtonSelected : styles.formatButton}
               onPress={() => setMatchType('roundrobin')}
             >
-              <Text style={{ color: matchType === STRINGCONSTANT.LABELS.KNOCKOUT  ? color.text.textSecondary : color.text.textPrimary }}>
+              <Text style={{ color: matchType === STRINGCONSTANT.LABELS.ROUNDROBIN  ? color.text.textSecondary : color.text.textPrimary }}>
                 {STRINGCONSTANT.LABELS.ROUNDROBIN}
               </Text>
             </TouchableOpacity>

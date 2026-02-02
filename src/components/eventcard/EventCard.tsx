@@ -1,8 +1,7 @@
-// components/eventCard/EventCard.tsx
 import React from 'react';
 import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { eventInfo, Props } from '../../types/eventsData';
+import { Props } from '../../types/eventsData';
 import { eventImage } from '../../constant/imageConstant';
 import { color } from '../../theme/colorConstants';
 import { fonts } from '../../theme/fontsConstants';
@@ -16,7 +15,6 @@ const EventCard = ({
   onPress,
   onEdit,
   onDelete,
-  role,
 } : Props) => {
   const imageSource = eventImage[event.image as keyof typeof eventImage];
 

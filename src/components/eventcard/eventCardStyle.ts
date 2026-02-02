@@ -1,4 +1,3 @@
-// components/eventCard/eventCardStyle.ts
 import { StyleSheet } from 'react-native';
 import { color } from '../../theme/colorConstants';
 import { fonts } from '../../theme/fontsConstants';

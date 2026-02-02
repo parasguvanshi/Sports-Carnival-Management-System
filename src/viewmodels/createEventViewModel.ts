@@ -16,9 +16,7 @@ export const createEventViewModel = (navigation: any) => {
   const [format, setFormat] = useState<'1v1' | '2v2'>('1v1');
   const [slot1v1, setSlot1v1] = useState('');
   const [slot2v2, setSlot2v2] = useState('');
-  const [matchType, setMatchType] = useState<'roundrobin' | 'knockout'>(
-    'roundrobin',
-  );
+  const [matchType, setMatchType] = useState<'roundrobin' | 'knockout'>('roundrobin');
   const [description, setDescription] = useState('');
   const [imageKey, setImageKey] = useState<string>('');
 

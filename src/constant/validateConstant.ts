@@ -35,5 +35,8 @@ export const VALIDATE_MESSAGES = {
   SLOT_FULL_2V2 : 'Slot full, 2v2 slots are full',
   DEADLINE : 'Registration closed, Deadline has passed',
   EVENT_NOT_FOUND : 'Event not found',
-  SLOT_FULL : 'Slot Full'
+  SLOT_FULL : 'Slot Full',
+  EVENT_CREATION_ALLOWED : 'Only admin or organiser can create events',
+  ALREADY_JOINED_EVENT : 'Already Joined Event',
+  PARTICIPANTS_ALLOWED : 'Only participants are allowed'
 };

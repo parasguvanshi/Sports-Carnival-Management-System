@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Alert } from 'react-native';
 import { VALIDATE_MESSAGES } from '../constant/validateConstant';
 import {
   addPlayer1v1,
@@ -7,13 +6,12 @@ import {
   getPlayers1v1,
   getPlayers2v2Pool,
 } from '../services/TeamStorage';
-import { PlayerInfo } from '../types/teamsData';
+import { MatchFormat, PlayerInfo } from '../types/teamsData';
 import { getEventById } from '../services/TeamStorage';
 import { useAuth } from '../context/AuthContext';
 import { ToastService } from '../utils/toast';
 import { STRINGCONSTANT } from '../constant/stringConstant';
 
-export type MatchFormat = '1v1' | '2v2';
 
 export const teamRegistrationViewModel = (eventId: number) => {
   const { user } = useAuth();
@@ -22,6 +20,7 @@ export const teamRegistrationViewModel = (eventId: number) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [gender, setGender] = useState<'male' | 'female' | 'other'>('male');
+ 
 
   const isFormValid = name && phone && gender;
 
@@ -45,7 +44,6 @@ export const teamRegistrationViewModel = (eventId: number) => {
     }
 
     const now = new Date();
-
     const deadline = new Date(`${event.date}T${event.time}`);
 
     if (now > deadline) {

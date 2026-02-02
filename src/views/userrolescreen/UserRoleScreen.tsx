@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { RootStackParamList } from '../../navigation/StackNavigator';
+import { AuthStackParamList } from '../../navigation/AuthStackNavigator';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import styles from './userRoleScreenStyle';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -9,7 +9,7 @@ import { userInfo } from '../../types/userRoleData';
 import { STRINGCONSTANT } from '../../constant/stringConstant';
 import { userRoleViewModel } from '../../viewmodels/userRoleViewModel';
 
-type props = NativeStackScreenProps<RootStackParamList, 'UserRole'>;
+type props = NativeStackScreenProps<AuthStackParamList, 'UserRole'>;
 
 const roles: userInfo[] = [
   {

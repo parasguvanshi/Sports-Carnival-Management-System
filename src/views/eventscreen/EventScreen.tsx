@@ -10,14 +10,13 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
 import Header from '../../components/header/Header';
 import styles from './eventScreenStyle';
 import { eventInfo } from '../../types/eventsData';
 import { color } from '../../theme/colorConstants';
 import { useAuth } from '../../context/AuthContext';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/StackNavigator';
+import { AppStackParamList } from '../../navigation/AppStackNavigator';
 import { eventImage } from '../../constant/imageConstant';
 import { fonts } from '../../theme/fontsConstants';
 import { STRINGCONSTANT } from '../../constant/stringConstant';
@@ -28,7 +27,7 @@ import { BottomTabParamList } from '../../navigation/EventTabsNavigator';
 
 type props = CompositeScreenProps<
   BottomTabScreenProps<BottomTabParamList, 'EventScreen'>,
-  NativeStackScreenProps<RootStackParamList>
+  NativeStackScreenProps<AppStackParamList>
 >;
 
 const EventScreen = ({ navigation }: props) => {
