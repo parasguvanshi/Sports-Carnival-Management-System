@@ -3,14 +3,14 @@ import { color } from '../../theme/colorConstants';
 import { fonts } from '../../theme/fontsConstants';
 
 const styles = StyleSheet.create({
-  KeyboardcontentContainerStyle : {
-    flexGrow : 1,
+  KeyboardcontentContainerStyle: {
+    flexGrow: 1,
   },
   KeyboardBackground: {
-    backgroundColor: color.color.primary,
+    backgroundColor: color.color.secondary,
   },
   headerContainer: {
-    marginBottom: 60,
+    marginBottom: 30,
   },
   headerText: {
     fontSize: fonts.fontSizes.xxl,
@@ -18,10 +18,23 @@ const styles = StyleSheet.create({
     fontFamily: 'Gilroy',
     textAlign: 'center',
   },
+  imageContainer: {
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  innerImageContainer: {
+    padding: 10,
+    width: 270,
+    height: 200,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
   container: {
     width: '100%',
     height: '100%',
-    backgroundColor: color.color.primary,
+    backgroundColor: color.color.secondary,
     padding: 15,
     justifyContent: 'center',
   },
@@ -49,17 +62,25 @@ const styles = StyleSheet.create({
     color: color.text.textPrimary,
   },
   forgotPasswordText: {
-    marginTop: 0,
+    margin: 5,
     fontWeight: fonts.fontsWeight.regular,
     color: color.text.textPrimary,
   },
-  textAlignmentContainer: {
-    marginTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
   signUpButtonText: {
+    marginTop: 10,
+    alignSelf: 'center',
     flexDirection: 'row',
+  },
+  passwordContainer: {
+    position: 'relative',
+    justifyContent: 'center',
+  },
+
+  eyeIcon: {
+    position: 'absolute',
+    right: 12,
+    height: '100%',
+    justifyContent: 'center',
   },
 });
 

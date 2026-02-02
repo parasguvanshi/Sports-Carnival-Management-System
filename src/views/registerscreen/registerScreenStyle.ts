@@ -1,4 +1,4 @@
-import { Keyboard, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { color } from '../../theme/colorConstants';
 import { fonts } from '../../theme/fontsConstants';
 
@@ -7,10 +7,10 @@ const styles = StyleSheet.create({
     flexGrow : 1,
   },
   KeyboardBackground: {
-    backgroundColor: color.color.primary,
+    backgroundColor: color.color.secondary,
   },
   headerContainer: {
-    marginBottom: 50,
+    marginBottom: 20,
   },
   headerText: {
     textAlign: 'center',
@@ -18,10 +18,23 @@ const styles = StyleSheet.create({
     fontWeight: fonts.fontsWeight.bold,
     fontFamily: 'Gilroy',
   },
+  imageContainer : {
+    alignItems : 'center',
+    marginBottom : 20,
+  },
+  innerImageContainer : {
+    padding : 10,
+    width : 270,
+    height :200,
+  },
+  image : {
+    width : '100%',
+    height : '100%'
+  },
   container: {
     width: '100%',
     height: '100%',
-    backgroundColor: color.color.primary,
+    backgroundColor: color.color.secondary,
     padding: 18,
     justifyContent: 'center',
   },
@@ -49,7 +62,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
   },
-  signUpText: {},
+   passwordContainer: {
+  position: 'relative',
+  justifyContent: 'center',
+},
+
+eyeIcon: {
+  position: 'absolute',
+  right: 12,
+  height: '100%',
+  justifyContent: 'center',
+},
 });
 
 export default styles;

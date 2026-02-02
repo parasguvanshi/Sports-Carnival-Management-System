@@ -7,6 +7,7 @@ export const fonts = {
   } as const,
 
   fontSizes: {
+    xxs : 16,
     xs: 18,
     sm: 20,
     md: 22,

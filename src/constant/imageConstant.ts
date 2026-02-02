@@ -7,3 +7,7 @@ export const eventImage: Record<string, ImageSourcePropType> = {
   FOOSBALL: require('../assests/eventImage/ryan-waldman-D1ilxrR4jY4-unsplash.jpg'),
   CARROM: require('../assests/eventImage/shamoil-REr7cehZGAY-unsplash.jpg'),
 };
+
+export const logo = {
+  LOGO : require('../assests/logo/logo.png')
+}

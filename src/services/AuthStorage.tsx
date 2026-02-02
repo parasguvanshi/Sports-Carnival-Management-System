@@ -1,16 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { VALIDATE_MESSAGES } from '../constant/validateConstant';
+import { STRINGCONSTANT } from '../constant/stringConstant';
+import { UserData } from '../types/auth';
 
 const USER_KEY = 'APP_USER';
 const LOGGED_IN_USER_KEY = 'LOGGED_IN_USER';
-
-export type UserData = {
-  name?: string;
-  email: string;
-  password: string;
-  isLoggedIn?: boolean;
-  role?: 'admin' | 'organiser' | 'participant';
-};
 
 export const saveUser = async (user: UserData) => {
   const users = await getAllUsers();
@@ -52,3 +46,17 @@ export const updateUserRole = async (email: string, role: UserData['role']) => {
 
   await AsyncStorage.setItem(USER_KEY, JSON.stringify(updatedUsers));
 };
+
+export const deleteUser = async (email: string) => {
+  const currentUser = await getUser();
+
+  if (!currentUser || currentUser.role !== STRINGCONSTANT.ROLE.ADMIN) {
+    throw new Error(VALIDATE_MESSAGES.ADMIN_DELETE_USER);
+  }
+
+  const users = await getAllUsers();
+  const updatedUsers = users.filter(user => user.email !== email);
+
+  await AsyncStorage.setItem(USER_KEY, JSON.stringify(updatedUsers));
+};
+

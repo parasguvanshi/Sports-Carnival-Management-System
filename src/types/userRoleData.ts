@@ -10,3 +10,6 @@ export type userInfo = {
   icon: string;
   description: string;
 };
+
+
+export type UserRole = 'admin' | 'organiser' | 'participant';

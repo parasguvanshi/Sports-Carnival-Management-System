@@ -1,51 +1,38 @@
-import { Text, View, TextInput, Pressable, Alert, Keyboard } from 'react-native';
-import React, { useState } from 'react';
+import { Text, View, TextInput, Pressable, Image } from 'react-native';
+import React from 'react';
 import styles from './registerScreenStyle';
 import Button from '../../components/button/Button';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/Navigator';
+import { RootStackParamList } from '../../navigation/StackNavigator';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { STRINGCONSTANT } from '../../constant/stringConstant';
 import { registerViewModel } from '../../viewmodels/registerViewModel';
-import { VALIDATE_MESSAGES } from '../../constant/validateConstant';
-import { useAuth } from '../../context/AuthContext';
-import { STRING } from '../../constant/stringConstant';
+import { logo } from '../../constant/imageConstant';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { color } from '../../theme/colorConstants';
+import { fonts } from '../../theme/fontsConstants';
 
 type props = NativeStackScreenProps<RootStackParamList, 'Register'>;
 
 const RegisterScreen = ({ navigation }: props) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
-  const { register } = useAuth();
-
-  const handleSignup = async () => {
-    const payload = {
-      name,
-      email,
-      password,
-      confirmPassword,
-    };
-
-    const result = registerViewModel(payload);
-
-    if (!result.success) {
-      Alert.alert(result.message ?? VALIDATE_MESSAGES.REGISTRATION_FAILED);
-      return;
-    }
-
-    try {
-      await register({ name, email, password });
-      navigation.navigate('UserRole', { email });
-    } catch (error) {
-      if (error instanceof Error) {
-        Alert.alert(error.message);
-      }
-    }
-  };
-
-  const isButtonDisabled: boolean = email.trim() === '' || password.trim() === '' || name.trim() === '' || confirmPassword.trim() === '';
+  const {
+    name,
+    email,
+    password,
+    confirmPassword,
+    setName,
+    setEmail,
+    setPassword,
+    setConfirmPassword,
+    showPassword,
+    setShowPassword,
+    showConfirmPassword,
+    setShowConfirmPassword,
+    handleSignup,
+    isButtonDisabled,
+  } = registerViewModel((email: string) => {
+    navigation.navigate('UserRole', { email });
+  });
 
   return (
     <KeyboardAwareScrollView
@@ -55,72 +42,106 @@ const RegisterScreen = ({ navigation }: props) => {
       keyboardShouldPersistTaps="handled"
     >
       <View style={styles.container}>
+        <View style={styles.imageContainer}>
+          <View style={styles.innerImageContainer}>
+            <Image source={logo.LOGO} style={styles.image} />
+          </View>
+        </View>
+
         <View style={styles.headerContainer}>
-          <Text style={styles.headerText}>
-            {STRING.APP.LETS} {'\n'} {STRING.APP.START}
-          </Text>
+          <Text style={styles.headerText}>{STRINGCONSTANT.APP.START}</Text>
         </View>
 
         <View style={styles.inputFieldContainer}>
-          <Text style={styles.labelText}>{STRING.LABELS.NAME}</Text>
+          <Text style={styles.labelText}>{STRINGCONSTANT.LABELS.NAME}</Text>
           <TextInput
             style={styles.inputField}
-            placeholder={STRING.PLACEHOLDERS.NAME}
+            placeholder={STRINGCONSTANT.PLACEHOLDERS.NAME}
             value={name}
             onChangeText={setName}
           />
         </View>
 
         <View style={styles.inputFieldContainer}>
-          <Text style={styles.labelText}>{STRING.LABELS.EMAIL}</Text>
+          <Text style={styles.labelText}>{STRINGCONSTANT.LABELS.EMAIL}</Text>
           <TextInput
             style={styles.inputField}
-            placeholder={STRING.PLACEHOLDERS.EMAIL}
+            placeholder={STRINGCONSTANT.PLACEHOLDERS.EMAIL}
             value={email}
             onChangeText={setEmail}
           />
         </View>
 
         <View style={styles.inputFieldContainer}>
-          <Text style={styles.labelText}>{STRING.LABELS.PASSWORD}</Text>
+          <Text style={styles.labelText}>{STRINGCONSTANT.LABELS.PASSWORD}</Text>
 
-          <TextInput
-            style={styles.inputField}
-            secureTextEntry={true}
-            placeholder={STRING.PLACEHOLDERS.PASSWORD}
-            value={password}
-            onChangeText={setPassword}
-          />
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.inputField}
+              secureTextEntry={!showPassword}
+              placeholder={STRINGCONSTANT.PLACEHOLDERS.PASSWORD}
+              value={password}
+              onChangeText={setPassword}
+            />
+
+            <Pressable
+              style={styles.eyeIcon}
+              onPress={() => setShowPassword(prev => !prev)}
+            >
+              <Icon
+                name={
+                  showPassword
+                    ? STRINGCONSTANT.ICON.VISIBILITY_OFF
+                    : STRINGCONSTANT.ICON.VISIBILITY
+                }
+                size={fonts.iconSize.lg}
+                color={color.color.background}
+              />
+            </Pressable>
+          </View>
         </View>
 
         <View style={styles.inputFieldContainer}>
-          <Text style={styles.labelText}>{STRING.LABELS.CONFIRM_PASSWORD}</Text>
+          <Text style={styles.labelText}>
+            {STRINGCONSTANT.LABELS.CONFIRM_PASSWORD}
+          </Text>
 
-          <TextInput
-            style={styles.inputField}
-            secureTextEntry={true}
-            placeholder={STRING.PLACEHOLDERS.CONFIRM_PASSWORD}
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-          />
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.inputField}
+              secureTextEntry={!showConfirmPassword}
+              placeholder={STRINGCONSTANT.PLACEHOLDERS.CONFIRM_PASSWORD}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+            />
+
+            <Pressable
+              style={styles.eyeIcon}
+              onPress={() => setShowConfirmPassword(prev => !prev)}
+            >
+              <Icon
+                name={
+                  showConfirmPassword
+                    ? STRINGCONSTANT.ICON.VISIBILITY_OFF
+                    : STRINGCONSTANT.ICON.VISIBILITY
+                }
+                size={fonts.iconSize.lg}
+                color={color.color.background}
+              />
+            </Pressable>
+          </View>
         </View>
 
-        <View>
-          <Button
-            name={STRING.BUTTONS.NEXT}
-            onPress={handleSignup}
-            disabled={isButtonDisabled}
-          />
-        </View>
+        <Button
+          name={STRINGCONSTANT.BUTTONS.NEXT}
+          onPress={handleSignup}
+          disabled={isButtonDisabled}
+        />
 
         <View style={styles.loginTextContainer}>
-          <Text>{STRING.ACCOUNT.ALREADY_ACOOUNT}</Text>
-          <Pressable
-            onPress={() => {
-              navigation.navigate('Login', {});
-            }}
-          >
-            <Text> {STRING.BUTTONS.LOGIN}</Text>
+          <Text>{STRINGCONSTANT.ACCOUNT.ALREADY_ACOOUNT}</Text>
+          <Pressable onPress={() => navigation.navigate('Login', {})}>
+            <Text> {STRINGCONSTANT.BUTTONS.LOGIN}</Text>
           </Pressable>
         </View>
       </View>

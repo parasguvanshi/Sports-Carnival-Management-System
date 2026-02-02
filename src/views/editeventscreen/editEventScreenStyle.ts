@@ -1,23 +1,21 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { color } from '../../theme/colorConstants';
 import { fonts } from '../../theme/fontsConstants';
-import { eventImage } from '../../constant/imageConstant';
-
-type ImageKey = keyof typeof eventImage;
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.color.primary,
-    padding: 16,
+    paddingHorizontal: 16,
   },
 
   inputContainerList: {
-    marginTop: 10,
+    paddingTop: 12,
+    paddingBottom: 120, 
   },
 
   inputContainer: {
-    marginBottom: 18,
+    marginBottom: 16,
   },
 
   label: {
@@ -29,53 +27,89 @@ export default StyleSheet.create({
 
   input: {
     backgroundColor: color.color.secondary,
-    borderRadius: 12,
+    borderRadius: 14,
     paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingVertical: Platform.OS === 'ios' ? 14 : 12,
     fontSize: fonts.fontSizes.xs,
     color: color.text.textPrimary,
+    borderWidth: 1,
+    borderColor: color.color.borderPrimary,
   },
 
   textArea: {
     height: 100,
     textAlignVertical: 'top',
+    paddingTop: 14,
+  },
+
+  iconInput: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 
   createButton: {
-    marginTop: 24,
-    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 20,
+    left: 16,
+    right: 16,
+    backgroundColor: color.color.createButton,
+    paddingVertical: 16,
+    borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: color.color.createButton,
-    paddingVertical: 14,
-    borderRadius: 28,
-    elevation: 3,
+
   },
 
   createButtonText: {
     color: color.text.textSecondary,
     fontSize: fonts.fontSizes.xs,
     fontWeight: fonts.fontsWeight.medium,
-    marginLeft: 8,
   },
 
-  keyContainer: {
-    padding: 8,
-    margin: 4,
-    borderWidth: 1,
-    borderColor: color.color.borderPrimary,
-    borderRadius: 4,
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: color.color.backgroundRgba,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  keyContainerOptional: {
-    padding: 8,
-    margin: 4,
 
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: color.color.buttonBackground,
+  modalContent: {
+    backgroundColor: color.color.secondary,
+    borderRadius: 16,
+    padding: 20,
+    width: '90%',
+    maxWidth: 350,
   },
-  keyAlignment: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+
+  dropdownOverlay: {
+    flex: 1,
+    backgroundColor: color.color.backgroundRgba,
+    justifyContent: 'center',
+    paddingHorizontal: 40,
   },
+
+  dropdownContainer: {
+    alignSelf:'center',
+    backgroundColor: color.color.secondary,
+    borderRadius: 16,
+    paddingVertical: 6,
+    width: 200, 
+  },
+
+  dropdownItem: {
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+  },
+
+  dropdownText: {
+    fontSize: fonts.fontSizes.sm,
+    fontWeight: fonts.fontsWeight.medium,
+    color: color.text.textPrimary,
+    textAlign: 'center',
+  },
+  Modal : {
+    alignSelf: 'flex-end', 
+    marginTop: 12,
+  }
 });

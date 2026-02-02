@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
-  UserData,
   saveUser,
   getUser,
   clearUser,
@@ -10,14 +9,8 @@ import {
 } from '../services/AuthStorage';
 import { Alert } from 'react-native';
 import { VALIDATE_MESSAGES } from '../constant/validateConstant';
-
-type AuthContextType = {
-  user: UserData | null;
-  login: (email: string, password: string) => Promise<boolean>;
-  logout: () => Promise<void>;
-  register: (user: UserData) => Promise<void>;
-  setUserRole: (email: string, role: UserData['role']) => Promise<boolean>;
-};
+import { deleteUser as removeUser } from '../services/AuthStorage';
+import { AuthContextType, UserData } from '../types/auth';
 
 const AuthContext = createContext<AuthContextType>(null as any);
 
@@ -35,8 +28,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     );
 
     if (!existingUser) {
-      Alert.alert(VALIDATE_MESSAGES.USER_NOT_EXIST);
-      return false;
+      throw new Error(VALIDATE_MESSAGES.USER_NOT_EXIST);
     }
 
     await setLoggedInUser(existingUser);
@@ -58,9 +50,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(null);
   };
 
+  const deleteUser = async (email: string) => {
+    await removeUser(email);
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, register, setUserRole }}
+      value={{ user, login, logout, register, setUserRole, deleteUser }}
     >
       {children}
     </AuthContext.Provider>

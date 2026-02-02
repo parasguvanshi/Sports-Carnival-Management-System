@@ -3,30 +3,63 @@ import { color } from '../../theme/colorConstants';
 import { fonts } from '../../theme/fontsConstants';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  KeyboardcontentContainerStyle: {
+    flexGrow: 1,
+  },
+  KeyboardBackground: {
     backgroundColor: color.color.primary,
-    padding: 16,
+  },
+
+  container: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: color.color.secondary,
+    padding: 15,
     justifyContent: 'center',
   },
-  inputFieldContainer: {
-    color: color.text.textPrimary,
-    gap: 6,
+
+  imageContainer: {
+    alignItems: 'center',
+    marginBottom: 40,
   },
-  textLabel: {
+  innerImageContainer: {
+    padding: 10,
+    width: 270,
+    height: 200,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+
+  headerContainer: {
+    marginBottom: 30,
+  },
+  headerText: {
+    fontSize: fonts.fontSizes.xl,
+    fontWeight: fonts.fontsWeight.bold,
+    fontFamily: 'Gilroy',
+    textAlign: 'center',
+    color: color.text.textPrimary,
+  },
+
+  inputFieldContainer: {
+    gap: 5,
+    marginTop: 25,
+  },
+  labelText: {
     fontSize: fonts.fontSizes.md,
     color: color.text.textPrimary,
     fontWeight: fonts.fontsWeight.regular,
   },
   inputField: {
-    width: '100%',
+    backgroundColor: color.color.secondary,
+    padding: 12,
+    paddingLeft: 15,
+    fontSize: fonts.fontSizes.xs,
     borderColor: color.color.borderPrimary,
     borderWidth: 2,
-    paddingVertical: 12,
-    paddingHorizontal: 15,
     borderRadius: 15,
-    backgroundColor: color.color.secondary,
-    fontSize: fonts.fontSizes.xs,
   },
 });
 

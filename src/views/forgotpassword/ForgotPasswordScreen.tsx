@@ -1,37 +1,60 @@
-import { View, Text, TextInput } from 'react-native';
-import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, TextInput, Image } from 'react-native';
+import React from 'react';
 import styles from './forgotPasswordScreenStyle';
 import Button from '../../components/button/Button';
-import { STRING } from '../../constant/stringConstant';
+import { STRINGCONSTANT } from '../../constant/stringConstant';
+import { forgotPasswordViewModel } from '../../viewmodels/forgotPasswordViewModel';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { logo } from '../../constant/imageConstant';
 
 const ForgotPasswordScreen = () => {
-  const [email, setEmail] = useState('');
-
-  const handleSubmit = () => {};
-
-  const isButtonDisabled: boolean = email.trim() === '';
+  const {
+    email,
+    setEmail,
+    handleSubmit,
+    isButtonDisabled,
+  } = forgotPasswordViewModel();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.inputFieldContainer}>
-        <Text style={styles.textLabel}>{STRING.LABELS.EMAIL}</Text>
-        <TextInput
-          style={styles.inputField}
-          placeholder={STRING.PLACEHOLDERS.EMAIL}
-          value={email}
-          onChangeText={setEmail}
-        />
-      </View>
+    <KeyboardAwareScrollView
+      contentContainerStyle={styles.KeyboardcontentContainerStyle}
+      style={styles.KeyboardBackground}
+      enableOnAndroid
+      keyboardShouldPersistTaps="handled"
+    >
+      <View style={styles.container}>
 
-      <View>
+        <View style={styles.imageContainer}>
+          <View style={styles.innerImageContainer}>
+            <Image source={logo.LOGO} style={styles.image} />
+          </View>
+        </View>
+
+        <View style={styles.headerContainer}>
+          <Text style={styles.headerText}>
+            {STRINGCONSTANT.APP.RESET_PASSWORD}
+          </Text>
+        </View>
+
+        <View style={styles.inputFieldContainer}>
+          <Text style={styles.labelText}>
+            {STRINGCONSTANT.LABELS.EMAIL}
+          </Text>
+          <TextInput
+            style={styles.inputField}
+            placeholder={STRINGCONSTANT.PLACEHOLDERS.EMAIL}
+            value={email}
+            onChangeText={setEmail}
+          />
+        </View>
+
         <Button
-          name={STRING.BUTTONS.SUBMIT}
+          name={STRINGCONSTANT.BUTTONS.SUBMIT}
           onPress={handleSubmit}
           disabled={isButtonDisabled}
         />
       </View>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 

@@ -1,4 +1,4 @@
-export const STRING = {
+export const STRINGCONSTANT = {
   APP: {
     LETS: "Let's",
     START: 'Get Started',
@@ -6,8 +6,10 @@ export const STRING = {
     HEY: 'Hey,',
     WELCOME: 'Welcome Back',
     RULES: 'Rules & Description',
-    LINES: 4,
-    NA : 'N/A'
+    LINES4: 4,
+    LINES1: 1,
+    NA : 'N/A',
+    RESET_PASSWORD : 'Reset Your Password'
   },
   LABELS: {
     EMAIL: 'Email',
@@ -24,11 +26,29 @@ export const STRING = {
     EVENT_IMAGE: 'Select Image *',
     DESCRIPTION: 'Description',
     SLOT: 'Slot',
+    PLAYER_DETAILS : 'Player Details',
+    GENDER : 'Gender',
+    ROUND : 'Round',
+    SLOT1 : 'Slot 2 vs 2:',
+    SLOT2 : 'Slot 1 vs 1:',
+    MATCH_TYPE : 'Match Type',
+    NOT_FOUND : 'No events found',
+    MALE_PLAYER : 'Male Players',
+    FEMALE_PLAYER : 'Female Players',
+    NO_PLAYER : 'No Player found',
+    ZERO : 0,
+    KNOCKOUT : 'knockout',
+    ROUNDROBIN : 'roundrobin',
+    SELECT_SLOT : 'Select Slot',
+    MY_EVENT : 'My Events',
+    TOTAL_EVENT : 'Total Events',
+    USERS : 'Users'
+
   },
   PLACEHOLDERS: {
     EMAIL: 'Enter your email',
     PASSWORD: 'Enter your password',
-    NAME: 'Enter your full name',
+    NAME: 'Enter your name',
     CREATE_PASSWORD: 'Create a password',
     NEW_PASSWORD: 'Enter new password',
     CONFIRM_PASSWORD: 'Enter Confirm Password',
@@ -39,10 +59,11 @@ export const STRING = {
     FORMAT: '1 vs 1 or 2 vs 2',
     SLOT: '10',
     DESCRIPTION: 'Enter event description',
+    PHONE_NUMBER : 'Phone Number',
   },
   ACCOUNT: {
-    ALREADY_ACOOUNT: 'Already have an account?',
-    NO_ACCOUNT: "Dont't have an account",
+    ALREADY_ACOOUNT: 'Already have an account? ',
+    NO_ACCOUNT: "Dont't have an account? ",
   },
   BUTTONS: {
     CREATE: 'Create Account',
@@ -60,8 +81,12 @@ export const STRING = {
     EDIT : 'Edit',
     CREATE_BUTTON : 'create',
     UPCOMING : 'upcoming',
+    COMPLETED : 'completed',
     TODAY : 'today',
-    JOIN : 'Join'
+    JOIN : 'Join',
+    FIXTURES : 'Fixtures',
+    TEAM_LISTING : "Team Listing",
+    DONE : 'Done',
   },
   USER_INFO: {
     TITLE_ADMIN: 'Admin',
@@ -82,6 +107,9 @@ export const STRING = {
     CHOOSE_ROLE: 'Choose how you’ll use the app',
     ICON_SIZE: 28,
   },
+  KEYBOARD_TYPE : {
+    PHONE_PAD : 'phone-pad',
+  } as const,
   ICON: {
     ADD: 'add',
     SEARCH: 'search',
@@ -93,15 +121,59 @@ export const STRING = {
     CALENDER: 'calendar-today',
     ACCESS_TIME: 'access-time',
     PERSON: 'person',
+    VISIBILITY : 'visibility',
+    VISIBILITY_OFF : 'visibility-off',
+    DESCRIPTION : "description",
+    LOOKS1 : "looks-two",
+    LOOKS2 : "looks-one",
+    ARROW_DOWN : "arrow-drop-down",
   },
   ROLE: {
     ADMIN: 'admin',
     ORGANISER: 'organiser',
+    PARTICIPANT : 'participant',
+    USER : 'User',
+  },
+  TYPES : {
+    STRING : 'string'
   },
   HEADER: {
     EVENT: 'Events',
     EVENT_DETAIL: 'Event Details',
     EDIT_EVENT: 'Edit Event',
     CREATE_EVENT: 'Create Event',
+    USER_MANAGEMENT : "User Management",
+    TEAM_REGISTRATION : "Team Registration",
+    TEAM_LISTING : 'Teams Listing',
+    I_V_I : '1 vs 1 Match',
+    II_V_II : '2 vs 2 Match',
+    DASHBOARD : 'Dashboard',
+
   },
+  TAB : {
+    TODAY : 'today',
+    UPCOMING : 'upcoming',
+    COMPLETED : 'completed',
+    ivi : '1v1',
+    iivii : '2v2',
+    IvsI : '1 vs 1',
+    IIvsII : '2 vs 2',
+
+  },
+  TOAST : {
+    INFO :'info',
+    SUCCESS : 'success',
+    ERROR : 'error'
+  },
+  ARRAY : {
+    GENDER :['male', 'female', 'other'] as const,
+    FORMAT : ['1v1', '2v2'],
+    TABS : ['1v1', '2v2'] as const,
+    SLOTOPTIONS : [1, 2, 4, 8, 16, 32, 64],
+    DAY : ['today', 'upcoming', 'completed']
+  },
+  GENDER : {
+    MALE : 'Male',
+    FEMALE : 'Female'
+  }
 };
